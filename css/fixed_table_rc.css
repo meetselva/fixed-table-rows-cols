@@ -1,0 +1,25 @@
+.ft_container table { border: 1px solid #AED0EA; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; table-layout: fixed;}
+
+.ft_container table tr th {
+	font-weight: bold; 
+	border: 1px solid #D3D3D3;
+}
+
+.ft_container table thead { border-color: #AED0EA; cursor: pointer; -moz-user-select: none;-webkit-user-select: none;}
+.ft_container table tr th, 
+.ft_container table tr td { padding: 2px 1px; border: 0px solid #AED0EA; word-wrap: break-word; border-right-width: 1px; border-bottom-width: 1px; }
+
+.ft_container table tr td:last-child { border-top-width: 1px; border-right-width: 0px; }
+.ft_container table tr:last-child > td:last-child { border-right-width: 0px; }
+
+.ft_container { overflow: hidden; padding: 2px; }
+.ft_container table td { border-left: 0px none; border-top: 0px none; }
+
+.ft_rel_container { position: relative; overflow: hidden; border-width: 0px;}
+
+.ft_rc { position: absolute; z-index: 1005; }
+.ft_r, .ft_c { position: relative; }
+
+.ft_rwrapper, .ft_cwrapper { overflow: hidden; position: absolute; z-index: 1001; border-width: 0px;  padding: 0px; margin: 0px; }
+
+.ft_scroller { width: 100%; overflow: auto; height: 100%; color: orange; }
