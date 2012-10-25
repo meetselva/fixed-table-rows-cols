@@ -1,6 +1,6 @@
 /*
 A jQuery plugin to convert a well formatted table into a table with fixed
-rows and columbs.
+rows and columns.
 
 Copyright (C) (2011-2012) Selvakumar Arumugam
 
