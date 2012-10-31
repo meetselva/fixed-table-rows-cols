@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     font-size: 75%;
-    background-color: #fff; /*#f2f2f2;*/
+    background-color: #f2f2f2;
     padding: 1px; 
 }
 
@@ -13,21 +13,22 @@ ul li { list-style: none; }
 #header {	
 	padding: 8px;
 	padding-bottom: 0px;
+	height: 150px;
 }
 
 .hdr_links { padding: 2px 5px; cursor: pointer; margin-left: 10px;  }
 
-#theme-list { padding: 5px; display: none; }
-.themes-el { padding: 3px; cursor: pointer; }
+#theme-list { padding: 0px 20px; overflow: auto; height: 300px;  }
+li.themes-el { padding: 3px 5px; cursor: pointer; width: 80px; font-size: 0.9em; border:1px solid #c2c2c2; border-radius: 5px; margin: 10px; }
 .theme-dd { margin-left: -5px; margin-bottom: -3px; }
 .hdr-text { display: inline-block; vertical-align: top; }
-#themes { padding-bottom: 0px; margin-top: 5px; } 
+#themes { padding-bottom: 0px; margin-top: 5px; }
 
 h2 {
 	letter-spacing: 1px;
 	margin-bottom: 3px; 
 	padding: 5px;
-	font-size: 1.6em;		
+	font-size: 2.5em;
 }
 
 h2.title { font-size: 1.1em; padding-left: 12px; }
@@ -46,20 +47,19 @@ h1 {
 	padding: 7px 5px;
 }
 
+.beta { font-size: 0.6em; color: #0077DE; }
+
 #page-content {  padding: 7px 0px; margin: 2px; }
 
-/*#sidebar, #main-content {  margin: 3px 1px; }
 
-#sidebar {
-	width: 130px;
-	background-color: white;
-	float: left;
-	padding: 6px;
-}*/
+#left-content {  padding: 7px 0px; margin: 2px; display: inline-block; width: 18%;}
 #main-content {
 	border: 0px solid #a2a2a2;
 	padding: 6px;
 	padding-bottom: 10px;
+	display: inline-block;
+	width: 80%;
+	vertical-align: top;
 	/*background-color: #ebf1f9;
 	margin-left: 145px;*/
 }

@@ -1,44 +1,14 @@
 $(function () {
 
 	
-	/*$('.hdr_links', $('#header')).hover(function () {
-		$(this).addClass('ui-state-highlight');
-	}, function () {
-		$(this).removeClass('ui-state-highlight');
-	});.click (function () { //PiA to implement this
-		$(this).addClass('ui-state-highlight');
-	});*/
-	
-	/* Themes Global Code Start */
-	
-	//Theme click handler
-	var $themes = $('#themes');
-	var $themelist = $('#theme-list');
 	var $themesSelect = $('.themes-el');
 	
-	var themeLinkPos = $themes.position();
-	$themelist.dialog({
-		position: [themeLinkPos.left - 220, themeLinkPos.top + 20],
-		autoOpen: false,
-		title: 'Select a theme',
-		/*hide: { effect: 'drop', direction: "down" },
-		show: { effect: 'drop', direction: "up" },*/
-		hide: "fade",
-		show: "slide",
-		draggable: false,
-		height: 300
-	});
-	
-	$themes.click (function (e) { e.stopPropagation(); $themelist.dialog('open'); });
-	
-	$themelist.parent().click (function (e) { e.stopPropagation(); });
-	
 	$themesSelect.click (function () {
-		$themesSelect.removeClass('ui-state-highlight');
+		
 		$(this).addClass('ui-state-highlight');
 		
-		var selectedTheme = $(this).data('theme');
-		$themelist.dialog('close');
+		var selectedTheme = $(this).data('theme')
+				
 		util.showOverlay($('body'), 'Loading the new theme, Please wait..', function (selectedTheme) {
 			var linkURL = $('link')[1].href;
 			linkURL = linkURL.substring(0, linkURL.indexOf('\/themes\/') + 8);
@@ -48,16 +18,21 @@ $(function () {
 				util.hideOverlay();
 			}, 500);
 		}, [selectedTheme]);
-	}).hover(function () {  $(this).addClass('ui-state-highlight'); }, 
-			 function () { $(this).removeClass('ui-state-highlight'); });
-	
-	$(document).click (function (e) {
-		if ($themelist.dialog( "isOpen" ) ) {
-			$themelist.dialog('close');
+	}).hover(function () {
+		if ($(this).hasClass('ui-state-highlight')) {
+			$(this).addClass('active');
+		} else { 
+			$(this).addClass('ui-state-highlight');
+		}
+	}, function () { 
+		if ($(this).hasClass('active')) {
+			$(this).removeClass('active');
+		} else {
+			$(this).removeClass('ui-state-highlight');
 		}
 	});
 	
-	$('#c_overlay').fadeOut(500);
+	$('#c_overlay').fadeOut(2000);
 });
 
 var util = {

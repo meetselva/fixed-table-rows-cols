@@ -13,180 +13,15 @@
 	  	<script src="http://code.jquery.com/jquery.min.js"></script>
 	  	<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js" type="text/javascript"></script>
 		<script src="js/global.js" type="text/javascript"></script>
+		<script src="js/fixed_table_rc.js" type="text/javascript"></script>
 
 		<style>
 			#main-content { min-height: 600px; overflow: hidden; }
-			.example { border-width: 0px; }			
+			.example { border-width: 0px; }
+			
+			body { line-height: 1.5em; }
 		</style>
 
-		<script>
-			(function ($) {
-				
-				$.fn.fxdHdrCol = function (o) {
-					var cfg = {
-						height: 0,
-						width: 0,
-						tableWidth: 0,
-						fixedCols: 0,
-						tableTmpl: function () {
-							return '<table />';							
-						}
-					};
-					$.extend(cfg, o);
-					
-					var lc = {
-						ft_container: null,
-						ft_rel_container: null,
-						ft_wrapper: null,
-						ft_rc: null,
-						ft_r: null,
-						ft_c: null
-					};
-					
-					this.find('thead').addClass('ui-widget-header');
-										
-					//add base container
-					this.wrap('<div class="ft_container" />');
-					lc.ft_container = this.parent();
-					
-					//add relative container
-					this.wrap('<div class="ft_rel_container" />');
-					lc.ft_rel_container = this.parent();
-					
-					//set width and height for rel container
-					lc.ft_rel_container.css({width: cfg.width, height: cfg.height});
-					
-					//add wrapper to base table which will have the scrollbars
-					this.wrap('<div class="ft_scroller" />');
-					lc.ft_wrapper = this.parent();
-					
-					var theadTr = $('thead', this);				
-					
-					//clone the thead->tr 
-					var theadTrClone = theadTr.clone();
-					
-					//construct fixed row (full row)
-					lc.ft_rel_container
-						.prepend($(cfg.tableTmpl(), {'class': 'ft_r'})
-						.append(theadTrClone));
-
-					//an instance of fixed row
-					lc.ft_r = $('.ft_r', lc.ft_rel_container);
-					lc.ft_r.wrap($('<div />', {'class': 'ft_rwrapper'}));
-					
-					//clone the thead again to construct the 
-					theadTrClone = theadTr.clone();
-
-					//calculate the actual column's count (support for colspan)					
-					var r1c1ColSpan = 0;
-					var tw = 0;
-					for (var i = 0; i < cfg.fixedCols; i++ ) {
-						r1c1ColSpan += this[0].rows[0].cells[i].colSpan;
-						tw += $(this[0].rows[0].cells[i]).outerWidth(true);
-					}					
-					
-					//prepare rows/cols for fixed row col section
-					$.each($('tr', theadTrClone), function (idx, el) {			
-						var tdct = 0;
-						$(el).find('th').filter( function () {
-							tdct += this.colSpan;
-							return tdct > r1c1ColSpan;
-						}).remove();
-					})
-					
-					//add fixed row col section
-					lc.ft_rel_container
-						.prepend($(cfg.tableTmpl(), {'class': 'ft_rc'})
-						.append(theadTrClone));
-					
-					//an instance of fixed row column
-					lc.ft_rc = $('.ft_rc', lc.ft_rel_container);
-					
-					//now clone the fixed row column and append tbody for the remaining rows
-					lc.ft_c = lc.ft_rc.clone();
-					lc.ft_c[0].className = 'ft_c';
-					
-					//append tbody
-					lc.ft_c.append('<tbody />');
-					
-					//append row by row while just keeping the frozen cols
-					var ftc_tbody = lc.ft_c.find('tbody'); 
-					$.each (this.find('tbody > tr'), function (idx, el) {
-						var tr = $(el).clone();
-						
-						tdct = 0;
-						tr.find('td').filter(function (){
-							tdct += this.colSpan;
-							return tdct > r1c1ColSpan;
-						}).remove();
-						
-						ftc_tbody.append(tr);
-					});
-					
-					lc.ft_rc.after(lc.ft_c);
-					lc.ft_c.wrap($('<div />', {'class': 'ft_cwrapper'}));
-					
-					/*set width/height of generated tables*/					
-					lc.ft_r.add(this).width(cfg.tableWidth);
-					lc.ft_c.height(this.outerHeight(true));
-					lc.ft_c.add(lc.ft_rc).width(tw);
-
-					//set height of fixed_rc and fixed_c
-					for (var i = 0; i < this[0].rows.length; i++) {
-						var ch = $(this[0].rows[i]).height();
-						var fch = $(lc.ft_c[0].rows[i]).height();
-						
-						ch = (ch>fch)?ch:fch;
-						
-						if (i < lc.ft_rc[0].rows.length) {
-							$(lc.ft_r[0].rows[i])
-								.add(lc.ft_rc[0].rows[i])								
-								.height(ch);
-						}
-						
-						$(lc.ft_c[0].rows[i])
-							.add(this[0].rows[i])
-							.height(ch);
-					}
-					
-					for (var i = 0; i < this[0].rows[0].cells.length; i++) {
-						var cw = $(this[0].rows[0].cells[i]).width();
-						var fcw = $(lc.ft_r[0].rows[0].cells[i]).width();
-						
-						cw = (cw>fcw)?cw:fcw;
-
-						if (i < cfg.fixedCols) {
-							$(lc.ft_c[0].rows[0].cells[i])
-								.add(lc.ft_rc[0].rows[0].cells[i])
-								.width(cw);
-						}
-
-						$(lc.ft_r[0].rows[0].cells[i])
-							.add(this[0].rows[0].cells[i])
-							.width(cw);					
-					}
-					
-					lc.ft_c
-						.parent()
-						.css('height', cfg.height-17)
-						.width(lc.ft_rc.outerWidth())
-						.addClass('ui-widget-content');
-					
-					lc.ft_r
-						.parent()
-						.css('width', cfg.width-17)
-						.addClass('ui-widget-content');
-					
-					//events (scroll and resize)
-					lc.ft_wrapper.scroll(function () {						
-						lc.ft_c.css('top', ($(this).scrollTop()*-1));
-						lc.ft_r.css('left', ($(this).scrollLeft()*-1));        
-					});
-				};				
-				
-			})(jQuery);
-		</script>
-		
 		<script>
 			$(function () {
 				$('#fixed_hdr1').fxdHdrCol({
@@ -197,8 +32,8 @@
 				});
 				
 				$('#fixed_hdr2').fxdHdrCol({
-					fixedCols: 4,
-					width:     1130,
+					fixedCols: 3,
+					width:     780,
 					height:    500,
 					tableWidth:1700 
 				});
@@ -214,19 +49,51 @@
 	<body>
 		<div id="c_overlay"></div>
 		<script>
-			//try { $('#c_overlay').css({height: $(document).height(), width: $(document).width()}); } catch (e) {	}
+			try { $('#c_overlay').css({height: 2000, width: $(window).width()}); } catch (e) {	}
 		</script>
 	    
 		<div id="header" class="ui-widget-header">
-			<h2 class="float-left">Fixed Header & Column Table</h2>
-			<div class="float-right" id="themes">
-				<span class="theme-text">Themes</span>
-				<span class="ui-icon ui-icon-triangle-1-s theme-dd" style="display: inline-block;"></span>
-			</div>
-			<div class="clear" ></div>	
+			<div>
+				<h2 class="float-left">fixedTableRC<span class="beta">beta</span></h2>
+				<div class="float-right" id="themes">
+					<span class="theme-text">Themes</span>
+					<span class="ui-icon ui-icon-triangle-1-s theme-dd" style="display: inline-block;"></span>
+				</div>
+				<div class="clear" ></div>
+			</div>	
 		</div>
 		<div class="clear"></div>
 		<div id="page-content">
+			<div id="left-content">
+				<div id="theme-list">    
+					<ul>
+						<li class="themes-el" data-theme="cupertino">cupertino</li>
+						<li class="themes-el" data-theme="hot-sneaks">hot-sneaks</li>
+						<li class="themes-el" data-theme="smoothness">smoothness</li>
+						<li class="themes-el" data-theme="pepper-grinder">pepper-grinder</li>
+						<li class="themes-el" data-theme="ui-lightness">ui-lightness</li>
+						<li class="themes-el" data-theme="ui-darkness">ui-darkness</li>
+						<li class="themes-el" data-theme="black-tie">black-tie</li>
+						<li class="themes-el" data-theme="blitzer">blitzer</li>
+						<li class="themes-el" data-theme="dark-hive">dark-hive</li>
+						<li class="themes-el" data-theme="eggplant">eggplant</li>
+						<li class="themes-el" data-theme="excite-bike">excite-bike</li>
+						<li class="themes-el" data-theme="flick">flick</li>		
+						<li class="themes-el" data-theme="humanity">humanity</li>	
+						<li class="themes-el" data-theme="le-frog">le-frog</li>	
+						<li class="themes-el" data-theme="mint-choc">mint-choc</li>	
+						<li class="themes-el" data-theme="overcast">overcast</li>
+						<li class="themes-el" data-theme="redmond">redmond</li>
+						<li class="themes-el" data-theme="south-street">south-street</li>
+						<li class="themes-el" data-theme="start">start</li>				
+						<li class="themes-el" data-theme="sunny">sunny</li>	
+						<li class="themes-el" data-theme="swanky-purse">swanky-purse</li>			
+						<li class="themes-el" data-theme="trontastic">trontastic</li>		
+						<li class="themes-el" data-theme="vader">vader</li>
+						<li class="themes-el ui-state-highlight" data-theme="dot-luv">dot-luv</li>
+					</ul>	
+				</div>
+			</div>
 			<div id="main-content">				
 				<p>
 					Fixed Table RnC is a plug-in for the <a href="http://www.jquery.com/">jQuery</a> Javascript library. 
@@ -1964,40 +1831,10 @@
 						</tbody>
 					</table>
 				</div>				
-			</div>
-			<div class="clear"></div>
+			</div>			
 		</div>
 		<div id="footer">
-			<div class="text-align-right">&copy; Vega </div>
-		</div>
-		
-		<div id="theme-list">    
-			<ul>
-				<li class="themes-el ui-state-highlight" data-theme="cupertino">cupertino</li>
-				<li class="themes-el" data-theme="hot-sneaks">hot-sneaks</li>
-				<li class="themes-el" data-theme="smoothness">smoothness</li>
-				<li class="themes-el" data-theme="pepper-grinder">pepper-grinder</li>
-				<li class="themes-el" data-theme="ui-lightness">ui-lightness</li>
-				<li class="themes-el" data-theme="ui-darkness">ui-darkness</li>
-				<li class="themes-el" data-theme="black-tie">black-tie</li>
-				<li class="themes-el" data-theme="blitzer">blitzer</li>
-				<li class="themes-el" data-theme="dark-hive">dark-hive</li>
-				<li class="themes-el" data-theme="eggplant">eggplant</li>
-				<li class="themes-el" data-theme="excite-bike">excite-bike</li>
-				<li class="themes-el" data-theme="flick">flick</li>		
-				<li class="themes-el" data-theme="humanity">humanity</li>	
-				<li class="themes-el" data-theme="le-frog">le-frog</li>	
-				<li class="themes-el" data-theme="mint-choc">mint-choc</li>	
-				<li class="themes-el" data-theme="overcast">overcast</li>
-				<li class="themes-el" data-theme="redmond">redmond</li>
-				<li class="themes-el" data-theme="south-street">south-street</li>
-				<li class="themes-el" data-theme="start">start</li>				
-				<li class="themes-el" data-theme="sunny">sunny</li>	
-				<li class="themes-el" data-theme="swanky-purse">swanky-purse</li>			
-				<li class="themes-el" data-theme="trontastic">trontastic</li>		
-				<li class="themes-el" data-theme="vader">vader</li>
-				<li class="themes-el" data-theme="dot-luv">dot-luv</li>
-			</ul>	
+			<div class="text-align-right">&copy; Selvakumar Arumugam </div>
 		</div>
 	</body>
 </html>
