@@ -40,7 +40,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			ft_c: null
 		};
 		
-		this.find('thead').addClass('ui-widget-header');
+		this.find('thead').addClass('ui-widget-content ui-state-default');
 							
 		//add base container
 		this.wrap('<div class="ft_container" />');
@@ -166,13 +166,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		lc.ft_c
 			.parent()
 			.css('height', cfg.height-17)
-			.width(lc.ft_rc.outerWidth())
-			.addClass('ui-widget-content');
+			.width(lc.ft_rc.outerWidth());
 		
 		lc.ft_r
 			.parent()
-			.css('width', cfg.width-17)
-			.addClass('ui-widget-content');
+			.css('width', cfg.width-17);
 		
 		//events (scroll and resize)
 		lc.ft_wrapper.scroll(function () {						

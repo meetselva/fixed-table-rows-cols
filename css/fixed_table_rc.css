@@ -1,4 +1,4 @@
-.ft_container table { border: 1px solid #AED0EA; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; table-layout: fixed;}
+.ft_container table { border: 1px solid #AED0EA; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; table-layout: fixed; background-color: #f3f3f3;}
 
 .ft_container table tr th {
 	font-weight: bold; 
