@@ -1,6 +1,6 @@
 body {
-    font-family: Helvetica,Verdana,Arial,Sans-Serif;
-    font-size: 80%;
+    font-family: Arial,Trebuchet,Verdana,Sans-Serif;
+    font-size: 75%;
     background-color: #f2f2f2;
     padding: 1px; 
 }
@@ -10,13 +10,13 @@ ul li { list-style: none; }
 #header {	
 	padding: 8px;
 	padding-bottom: 0px;
-	height: 100px;
+	height: 70px;
 }
 #header-content {
-	margin: 30px 20px;
+	margin: 10px 20px;
 }
 
-#theme-list { overflow: auto; height: 300px;  }
+#theme-list { overflow: auto; font-size: 0.9em; }
 li.themes-el { padding: 2px 3px; cursor: pointer; width: 84px; font-size: 0.9em; border:1px solid #c2c2c2; border-radius: 5px; margin: 2px; display: inline-block; }
 
 h1 {

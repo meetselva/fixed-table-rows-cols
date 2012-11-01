@@ -40,7 +40,8 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			ft_c: null
 		};
 		
-		this.find('thead').addClass('ui-widget-content ui-state-default');
+		this.addClass('ui-widget-header');
+		this.find('tbody tr').addClass('ui-widget-content');
 							
 		//add base container
 		this.wrap('<div class="ft_container" />');
@@ -64,7 +65,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		//construct fixed row (full row)
 		lc.ft_rel_container
-			.prepend($(cfg.tableTmpl(), {'class': 'ft_r'})
+			.prepend($(cfg.tableTmpl(), {'class': 'ft_r ui-widget-header'})
 			.append(theadTrClone));
 
 		//an instance of fixed row
@@ -75,11 +76,9 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		theadTrClone = theadTr.clone();
 
 		//calculate the actual column's count (support for colspan)					
-		var r1c1ColSpan = 0;
-		var tw = 0;
+		var r1c1ColSpan = 0;		
 		for (var i = 0; i < cfg.fixedCols; i++ ) {
-			r1c1ColSpan += this[0].rows[0].cells[i].colSpan;
-			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
+			r1c1ColSpan += this[0].rows[0].cells[i].colSpan;			
 		}					
 		
 		//prepare rows/cols for fixed row col section
@@ -93,7 +92,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		//add fixed row col section
 		lc.ft_rel_container
-			.prepend($(cfg.tableTmpl(), {'class': 'ft_rc'})
+			.prepend($(cfg.tableTmpl(), {'class': 'ft_rc ui-widget-header'})
 			.append(theadTrClone));
 		
 		//an instance of fixed row column
@@ -122,11 +121,38 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		lc.ft_rc.after(lc.ft_c);
 		lc.ft_c.wrap($('<div />', {'class': 'ft_cwrapper'}));
+				
+		/*set width/height of generated tables*/
+		var tw = 0;
+		this.add(lc.ft_r).width(cfg.tableWidth);
 		
-		/*set width/height of generated tables*/					
-		lc.ft_r.add(this).width(cfg.tableWidth);
-		lc.ft_c.height(this.outerHeight(true));
+		for (var i = 0; i < cfg.fixedCols; i++) {
+			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
+		}
+		
 		lc.ft_c.add(lc.ft_rc).width(tw);
+		
+		/*for (var i = 0; i < this[0].rows[0].cells.length; i++) {
+			var cw = $(this[0].rows[0].cells[i]).width();
+			var fcw = $(lc.ft_r[0].rows[0].cells[i]).width();
+			
+			cw = (cw>fcw)?cw:fcw;
+
+			if (i < cfg.fixedCols) {
+				$(lc.ft_c[0].rows[0].cells[i])
+					.add(lc.ft_rc[0].rows[0].cells[i])
+					.width(cw);
+				
+				tw += $(lc.ft_c[0].rows[0].cells[i]).outerWidth(true);
+			}
+
+			$(lc.ft_r[0].rows[0].cells[i])
+				.add(this[0].rows[0].cells[i])
+				.width(cw);					
+		}*/
+
+		
+		lc.ft_c.height(this.outerHeight(true));
 
 		//set height of fixed_rc and fixed_c
 		for (var i = 0; i < this[0].rows.length; i++) {
@@ -144,33 +170,16 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			$(lc.ft_c[0].rows[i])
 				.add(this[0].rows[i])
 				.height(ch);
-		}
-		
-		for (var i = 0; i < this[0].rows[0].cells.length; i++) {
-			var cw = $(this[0].rows[0].cells[i]).width();
-			var fcw = $(lc.ft_r[0].rows[0].cells[i]).width();
-			
-			cw = (cw>fcw)?cw:fcw;
-
-			if (i < cfg.fixedCols) {
-				$(lc.ft_c[0].rows[0].cells[i])
-					.add(lc.ft_rc[0].rows[0].cells[i])
-					.width(cw);
-			}
-
-			$(lc.ft_r[0].rows[0].cells[i])
-				.add(this[0].rows[0].cells[i])
-				.width(cw);					
-		}
+		}		
 		
 		lc.ft_c
 			.parent()
-			.css('height', cfg.height-17)
+			.css({height: cfg.height-17, width: tw})
 			.width(lc.ft_rc.outerWidth());
 		
 		lc.ft_r
 			.parent()
-			.css('width', cfg.width-17);
+			.css({width: cfg.width-17});
 		
 		//events (scroll and resize)
 		lc.ft_wrapper.scroll(function () {						
