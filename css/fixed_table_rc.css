@@ -22,4 +22,4 @@
 
 .ft_rwrapper, .ft_cwrapper { overflow: hidden; position: absolute; z-index: 1001; border-width: 0px;  padding: 0px; margin: 0px; }
 
-.ft_scroller { width: 100%; overflow: auto; height: 100%; color: orange; }
+.ft_scroller { width: 100%; overflow: auto; height: 100%;}

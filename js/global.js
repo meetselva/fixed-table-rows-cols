@@ -1,13 +1,12 @@
 $(function () {
 
 	
-	var $themesSelect = $('.themes-el');
-	
-	$themesSelect.click (function () {
+	$('.themes-el').click (function () {
 		
-		$(this).addClass('ui-state-highlight');
+		$('.themes-el').removeClass('ui-state-highlight active'); //remove class for all li
+		$(this).addClass('ui-state-highlight active');
 		
-		var selectedTheme = $(this).data('theme')
+		var selectedTheme = $(this).data('theme');
 				
 		util.showOverlay($('body'), 'Loading the new theme, Please wait..', function (selectedTheme) {
 			var linkURL = $('link')[1].href;
