@@ -1,5 +1,8 @@
 $(function () {
 
+	$('#getThemes').click (function () {
+		$('#slide_container').slideToggle();
+	});
 	
 	$('.themes-el').click (function () {
 		
