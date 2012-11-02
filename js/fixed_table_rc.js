@@ -125,39 +125,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		/*set width/height of generated tables*/
 		var tw = 0;
 		this.add(lc.ft_r).width(cfg.tableWidth);
-		
-		for (var i = 0; i < cfg.fixedCols; i++) {
-			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
-		}
-		
-		lc.ft_c.add(lc.ft_rc).width(tw);
-		
-		/*for (var i = 0; i < this[0].rows[0].cells.length; i++) {
-			var cw = $(this[0].rows[0].cells[i]).width();
-			var fcw = $(lc.ft_r[0].rows[0].cells[i]).width();
-			
-			cw = (cw>fcw)?cw:fcw;
-
-			if (i < cfg.fixedCols) {
-				$(lc.ft_c[0].rows[0].cells[i])
-					.add(lc.ft_rc[0].rows[0].cells[i])
-					.width(cw);
 				
-				tw += $(lc.ft_c[0].rows[0].cells[i]).outerWidth(true);
-			}
-
-			$(lc.ft_r[0].rows[0].cells[i])
-				.add(this[0].rows[0].cells[i])
-				.width(cw);					
-		}*/
-
-		
-		lc.ft_c.height(this.height(true));
-
 		//set height of fixed_rc and fixed_c
 		for (var i = 0; i < this[0].rows.length; i++) {
-			var ch = $(this[0].rows[i]).height();
-			var fch = $(lc.ft_c[0].rows[i]).height();
+			var ch = $(this[0].rows[i]).outerHeight(true);
+			var fch = $(lc.ft_c[0].rows[i]).outerHeight(true);
 			
 			ch = (ch>fch)?ch:fch;
 			
@@ -172,6 +144,32 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				.height(ch);
 		}		
 		
+		lc.ft_c.height(this.height(true));
+
+		for (var i = 0; i < this[0].rows[0].cells.length; i++) {
+			var cw = $(this[0].rows[0].cells[i]).outerWidth(true);
+			var fcw = $(lc.ft_r[0].rows[0].cells[i]).outerWidth(true);
+			
+			cw = (cw>fcw)?cw:fcw;
+
+			if (i < cfg.fixedCols) {
+				$(lc.ft_c[0].rows[0].cells[i])
+					.add(lc.ft_rc[0].rows[0].cells[i])
+					.width(cw);
+				
+				//tw += $(lc.ft_c[0].rows[0].cells[i]).outerWidth(true);
+			}
+
+			$(lc.ft_r[0].rows[0].cells[i])
+				.add(this[0].rows[0].cells[i])
+				.width(cw);					
+		}
+
+		for (var i = 0; i < cfg.fixedCols; i++) {
+			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
+		}
+		lc.ft_c.add(lc.ft_rc).width(tw);
+
 		lc.ft_c
 			.parent()
 			.css({height: cfg.height-17, width: tw})
