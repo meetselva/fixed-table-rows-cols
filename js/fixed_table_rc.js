@@ -88,7 +88,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				tdct += this.colSpan;
 				return tdct > r1c1ColSpan;
 			}).remove();
-		})
+		});
 		
 		//add fixed row col section
 		lc.ft_rel_container
@@ -152,7 +152,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		}*/
 
 		
-		lc.ft_c.height(this.outerHeight(true));
+		lc.ft_c.height(this.height(true));
 
 		//set height of fixed_rc and fixed_c
 		for (var i = 0; i < this[0].rows.length; i++) {
