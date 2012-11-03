@@ -2,25 +2,18 @@ $(function () {
 
 	$('#slide_items li').click (function () {
 		
-		if (this.id == 'si_close') {
-			
-			if ($(this).hasClass('ui-icon-circle-triangle-n')) return;
-			
-			$('#slide_container .slide_content').slideUp();
-			$('#slide_items li').removeClass('active ui-state-active');
-			$(this).find('span').removeClass('ui-icon-circle-triangle-s').addClass('ui-icon-circle-triangle-n');
+		if ($(this).hasClass('active')) {
+			$('#slide_container' + ' .' + this.id + '_content').slideUp();
+			$(this).removeClass('active ui-state-active');
 			return;
 		}
-		
-		if ($(this).hasClass('active')) return;
 		
 		$('#slide_container .slide_content').not('.' + this.id + '_content').slideUp();
 		$('#slide_container' + ' .' + this.id + '_content').slideDown();
 		
 		$('#slide_items li').removeClass('active ui-state-active');
 		$(this).addClass('active ui-state-active');	
-		
-		$('#si_close').find('span').removeClass('ui-icon-circle-triangle-n').addClass('ui-icon-circle-triangle-s');
+
 	});
 	
 	$('.themes-el').click (function () {
