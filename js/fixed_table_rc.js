@@ -155,9 +155,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			if (i < cfg.fixedCols) {
 				$(lc.ft_c[0].rows[0].cells[i])
 					.add(lc.ft_rc[0].rows[0].cells[i])
-					.width(cw);
-				
-				//tw += $(lc.ft_c[0].rows[0].cells[i]).outerWidth(true);
+					.width(cw);				
 			}
 
 			$(lc.ft_r[0].rows[0].cells[i])
@@ -177,7 +175,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		lc.ft_r
 			.parent()
-			.css({width: cfg.width-17});
+			.css({width: lc.ft_rel_container.width()-20});
 		
 		//events (scroll and resize)
 		lc.ft_wrapper.scroll(function () {						

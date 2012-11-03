@@ -31,7 +31,7 @@
 				
 				$('#fixed_hdr2').fxdHdrCol({
 					fixedCols: 3,
-					width:     900,
+					width:     "100%",
 					height:    500,
 					tableWidth:1700 
 				});
@@ -53,58 +53,62 @@
 				<h4 class="strech">a jQuery table plugin</h4>
 			</div>	
 		</div>
-		<div id="slidebar">
+		<div id="slidebar" class="ui-widget-content">
 			<ul id="slide_items">
-				<li id="getThemes"><a href="javascript: void(0)">Themes</a></li>
+				<li id="si_themes"><a href="javascript: void(0)">Themes</a></li>
+				<li id="si_downloads"><a href="javascript: void(0)">Downloads</a></li>
+				<li id="si_other_projects"><a href="javascript: void(0)">Other Projects</a></li>
+				<li id="si_close"><span class="ui-icon ui-icon-circle-triangle-n"></span></li>
 			</ul>
 			<div id="slide_container">
-				<div class="theme_content slide_content">
-					This is where themes will go
+				<div class="si_themes_content slide_content hidden">
+					<h4>Select UI Theme</h4>
+					<div id="theme-list">
+						<ul>
+							<li class="themes-el" data-theme="cupertino">cupertino</li>
+							<li class="themes-el" data-theme="hot-sneaks">hot-sneaks</li>
+							<li class="themes-el" data-theme="smoothness">smoothness</li>
+							<li class="themes-el" data-theme="pepper-grinder">pepper-grinder</li>
+							<li class="themes-el" data-theme="ui-lightness">ui-lightness</li>
+							<li class="themes-el" data-theme="ui-darkness">ui-darkness</li>
+							<li class="themes-el" data-theme="black-tie">black-tie</li>
+							<li class="themes-el" data-theme="blitzer">blitzer</li>
+							<li class="themes-el" data-theme="dark-hive">dark-hive</li>
+							<li class="themes-el" data-theme="eggplant">eggplant</li>
+							<li class="themes-el" data-theme="excite-bike">excite-bike</li>
+							<li class="themes-el" data-theme="flick">flick</li>		
+							<li class="themes-el" data-theme="humanity">humanity</li>	
+							<li class="themes-el" data-theme="le-frog">le-frog</li>	
+							<li class="themes-el" data-theme="mint-choc">mint-choc</li>	
+							<li class="themes-el" data-theme="overcast">overcast</li>
+							<li class="themes-el" data-theme="redmond">redmond</li>
+							<li class="themes-el" data-theme="south-street">south-street</li>
+							<li class="themes-el" data-theme="start">start</li>				
+							<li class="themes-el" data-theme="sunny">sunny</li>	
+							<li class="themes-el" data-theme="swanky-purse">swanky-purse</li>			
+							<li class="themes-el" data-theme="trontastic">trontastic</li>		
+							<li class="themes-el" data-theme="vader">vader</li>
+							<li class="themes-el ui-state-highlight" data-theme="dot-luv">dot-luv</li>
+						</ul>	
+					</div>
+				</div>
+				<div class="si_downloads_content slide_content hidden">
+					<h4>Select Download Options</h4>
+					<div>
+						<a class="zip_download_link" href="https://github.com/meetselva/fixed-table-rows-cols/zipball/master" >as Zip</a>
+						<a class="tar_download_link" href="https://github.com/meetselva/fixed-table-rows-cols/tarball/master">as Tar</a>
+					</div>
+				</div>
+				<div class="si_other_projects_content slide_content hidden">
+					<h4>1. attrchange</h4>
+					<div>
+				        <p><a class="strong" href="https://github.com/meetselva/attrchange/blob/master/attrchange.js" target="_new" >attrchange</a> is a simple jQuery function to bind a listener function on attribute change of an element. The handler function is triggered when any attribute such as id, class, style, e.t.c is added or updated or modified to the element.</p>				        
+					</div>
 				</div>
 			</div>		
 		</div>
 		<div class="clear"></div>
-		<div id="page-content">
-			<div id="left-content">				
-				<h4>Downloads</h4>
-				<div id="downloads">
-					<a class="zip_download_link" href="https://github.com/meetselva/fixed-table-rows-cols/zipball/master" >as Zip</a>
-					<a class="tar_download_link" href="https://github.com/meetselva/fixed-table-rows-cols/tarball/master">as Tar</a>
-				</div>
-				<h4>Other Projects</h4>
-				<div id="otherProjects">
-					<a href="http://meetselva.github.com/attrchange/">attrchange</a>
-				</div>
-				<h4>Select UI Theme</h4>
-				<div id="theme-list">					
-					<ul>
-						<li class="themes-el" data-theme="cupertino">cupertino</li>
-						<li class="themes-el" data-theme="hot-sneaks">hot-sneaks</li>
-						<li class="themes-el" data-theme="smoothness">smoothness</li>
-						<li class="themes-el" data-theme="pepper-grinder">pepper-grinder</li>
-						<li class="themes-el" data-theme="ui-lightness">ui-lightness</li>
-						<li class="themes-el" data-theme="ui-darkness">ui-darkness</li>
-						<li class="themes-el" data-theme="black-tie">black-tie</li>
-						<li class="themes-el" data-theme="blitzer">blitzer</li>
-						<li class="themes-el" data-theme="dark-hive">dark-hive</li>
-						<li class="themes-el" data-theme="eggplant">eggplant</li>
-						<li class="themes-el" data-theme="excite-bike">excite-bike</li>
-						<li class="themes-el" data-theme="flick">flick</li>		
-						<li class="themes-el" data-theme="humanity">humanity</li>	
-						<li class="themes-el" data-theme="le-frog">le-frog</li>	
-						<li class="themes-el" data-theme="mint-choc">mint-choc</li>	
-						<li class="themes-el" data-theme="overcast">overcast</li>
-						<li class="themes-el" data-theme="redmond">redmond</li>
-						<li class="themes-el" data-theme="south-street">south-street</li>
-						<li class="themes-el" data-theme="start">start</li>				
-						<li class="themes-el" data-theme="sunny">sunny</li>	
-						<li class="themes-el" data-theme="swanky-purse">swanky-purse</li>			
-						<li class="themes-el" data-theme="trontastic">trontastic</li>		
-						<li class="themes-el" data-theme="vader">vader</li>
-						<li class="themes-el ui-state-highlight" data-theme="dot-luv">dot-luv</li>
-					</ul>	
-				</div>
-			</div>
+		<div id="page-content">			
 			<div id="main-content">				
 				<p>
 					Fixed Table RnC is a plug-in for the <a href="http://www.jquery.com/">jQuery</a> Javascript library. 
