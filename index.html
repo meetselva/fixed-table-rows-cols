@@ -43,6 +43,7 @@
 	</head>
 	<body>
 		<div id="c_overlay"></div>
+		<div id="c_helper"></div>
 		<script>
 			try { $('#c_overlay').css({height: 2000, width: $(window).width()}); } catch (e) {	}
 		</script>
@@ -112,11 +113,23 @@
 			<div id="main-content">
 				<h2>Overview</h2>
 				<p>
-					<a href="https://github.com/meetselva/fixed-table-rows-cols/blob/master/fixed_table_rc.js">fixedTableRC</a> is a <a href="http://www.jquery.com/">jQuery</a> plug-in for creating scrollable tables with fixed table header and columns.
-					This plugin allows to create scrollable tables while keeping the header and selected columns fixed and thus they are visible to the user while scrolling. 
+					<a href="https://github.com/meetselva/fixed-table-rows-cols/blob/master/fixed_table_rc.js">fixedTableRC</a> is a 
+					<a href="http://www.jquery.com/">jQuery</a> plug-in for converting a well formatted HTML table to a scrollable table 
+					with fixed table header and columns. The idea is from question on SO <a href="http://stackoverflow.com/questions/10838700/large-dynamically-sized-html-table-with-a-fixed-scroll-row-and-fixed-scroll-colu/10922732#10922732">Large Dynamic Table with Fixed Rows and Fixed Columns</a> 
+					and so It all started with some grunt work to write first version of <a href="demo v0_01.html" target="_blank" >Fixed Table RC</a>. 
+					Even though it solved the main issue, there were few issues with the first version such as nested div structures, 
+					breaks on <a href="javascript:void(0)" class="helper" data-helper-msg="WELLFORMED_HTML">well formed table</a> and the hanging scrollbars.  
+				</p>
+				<p>
+					This is a light weight plugin for rendering HTML table to an scrollable table the fixed header and configurable number of fixed columns. 
+					It is stil under development and in beta stage, for more details read Known Issue section below.
 				</p>
 				<h2>Usage</h2>
-				<br/><br/><br/><br/>
+        		<p>To use the function, include <a href="http://code.jquery.com/" target="_new" class="external">jQuery library</a> and <a href="https://github.com/meetselva/attrchange/blob/master/attrchange.js">attrchange</a> plugin.
+<pre>&lt;script type="text/javascript" src="http://code.jquery.com/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"
+        src="https://raw.github.com/meetselva/fixed-table-rows-cols/master/fixed_table_rc.js"&gt;&lt;/script&gt;</pre>
+        		</p>
 				<h2>Examples</h2>
 				<div class="example" id="example_1">
 					<div class="e_title">Example 1</div>

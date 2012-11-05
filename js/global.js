@@ -46,6 +46,30 @@ $(function () {
 		}
 	});
 	
+	//helper
+	var $helper = $('#c_helper');
+	var helperMsg = {
+		WELLFORMED_HTML: "A HTML table is to be well formed when it has proper THEAD, TBODY, and TFOOT tags enclosing the respective TR's."	
+	}
+	$('.helper').mouseenter(function () {
+		var _this = $(this);
+		var pos = _this.position();
+		var msg = _this.data('helper-msg');		
+		
+		if (helperMsg.hasOwnProperty(msg)) {
+			$helper
+				.html(helperMsg[msg])
+				.show()
+				.css({
+				  top: pos.top + _this.height() + 2,
+				  left: pos.left + (_this.width()/2)
+				});
+		}
+		
+	}).mouseout(function () {		
+		$helper.hide();
+	});
+	
 	$('#c_overlay').fadeOut(2000);
 });
 

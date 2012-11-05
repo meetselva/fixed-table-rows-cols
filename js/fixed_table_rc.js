@@ -144,7 +144,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				.height(ch);
 		}		
 		
-		lc.ft_c.height(this.height(true));
+		lc.ft_c.height(this.height());
 
 		for (var i = 0; i < this[0].rows[0].cells.length; i++) {
 			var cw = $(this[0].rows[0].cells[i]).outerWidth(true);
@@ -175,12 +175,18 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		lc.ft_r
 			.parent()
-			.css({width: lc.ft_rel_container.width()-20});
+			.css({width: lc.ft_rel_container.width()- 17});
 		
 		//events (scroll and resize)
 		lc.ft_wrapper.scroll(function () {						
 			lc.ft_c.css('top', ($(this).scrollTop()*-1));
 			lc.ft_r.css('left', ($(this).scrollLeft()*-1));        
+		});
+		
+		$(window).on('resize', function () {
+			lc.ft_r
+			.parent()
+			.css({width: lc.ft_rel_container.width()- 17});			
 		});
 	};				
 	

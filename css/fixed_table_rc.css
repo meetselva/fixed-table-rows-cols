@@ -15,6 +15,7 @@
 
 .ft_rel_container { position: relative; overflow: hidden; border-width: 0px;}
 
+.ft_r, .ft_rc { background-image: none; }
 .ft_rc { position: absolute; z-index: 1005; }
 .ft_r, .ft_c { position: relative; }
 
