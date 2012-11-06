@@ -168,7 +168,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		}
 		lc.ft_c.add(lc.ft_rc).width(tw);
 
-		lc.ft_c
+		lc.ft_c			
 			.parent()
 			.css({height: cfg.height-17, width: tw})
 			.width(lc.ft_rc.outerWidth());

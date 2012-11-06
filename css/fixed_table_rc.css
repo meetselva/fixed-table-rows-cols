@@ -1,15 +1,15 @@
-.ft_container table { border-width: 0px; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; table-layout: fixed; }
+.ft_container table { border-width: 0px; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; table-layout: fixed; font-size: 0.9em; }
 
 .ft_container table tr th {	font-weight: bold; }
 
 .ft_container table thead { cursor: pointer; -moz-user-select: none;-webkit-user-select: none;}
 .ft_container table tr th, 
-.ft_container table tr td { padding: 2px 1px; word-wrap: break-word; border: 1px solid #6CA6D1; border-top-width: 0px; border-left-width: 0px; }
+.ft_container table tr td { padding: 2px 4px; word-wrap: break-word; border: 1px solid #CCCCCC; border-top-width: 0px; border-left-width: 0px; }
 
 .ft_container table tr:first-child td,  
-.ft_container table tr:first-child th { border-top-width: 1px; border-color: #6CA6D1; }
+.ft_container table tr:first-child th { border-top-width: 1px; border-color: #CCCCCC; }
 .ft_container table tr td:first-child,
-.ft_container table tr th:first-child { border-left-width: 1px; border-color: #6CA6D1; }
+.ft_container table tr th:first-child { border-left-width: 1px; border-color: #CCCCCC; }
 
 .ft_container { overflow: hidden; padding: 2px; }
 

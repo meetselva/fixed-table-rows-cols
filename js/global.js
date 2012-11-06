@@ -23,7 +23,7 @@ $(function () {
 		
 		var selectedTheme = $(this).data('theme');
 				
-		util.showOverlay($('body'), 'Loading the new theme, Please wait..', function (selectedTheme) {
+		util.showOverlay($(document), 'Loading the new theme, Please wait..', function (selectedTheme) {
 			var linkURL = $('link')[1].href;
 			linkURL = linkURL.substring(0, linkURL.indexOf('\/themes\/') + 8);
 			$('link')[1].href = linkURL + selectedTheme + '/jquery-ui.css';
@@ -49,7 +49,7 @@ $(function () {
 	//helper
 	var $helper = $('#c_helper');
 	var helperMsg = {
-		WELLFORMED_HTML: "A HTML table is to be well formed when it has proper THEAD, TBODY, and TFOOT tags enclosing the respective TR's."	
+		WELLFORMED_HTML: "A HTML table is to be well formed when it has proper THEAD, TBODY, and TFOOT tags enclosing the respective TR's(table > thead > tr > th and table > tbody > tr > td)."	
 	}
 	$('.helper').mouseenter(function () {
 		var _this = $(this);
