@@ -70,7 +70,7 @@ $(function () {
 		$helper.hide();
 	});
 	
-	$('#c_overlay').fadeOut(2000);
+	$('#c_overlay').fadeOut(1000);
 });
 
 var util = {

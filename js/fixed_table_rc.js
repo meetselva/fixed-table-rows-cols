@@ -25,6 +25,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			width: 0,
 			tableWidth: 0,
 			fixedCols: 0,
+			colModal: [],
 			tableTmpl: function () {
 				return '<table />';							
 			}
@@ -39,6 +40,16 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			ft_r: null,
 			ft_c: null
 		};
+		
+		/* if colModal is set */
+		for (var i = 0; i < cfg.colModal.length; i++) {
+			for (key in cfg.colModal[i]) {
+				$('thead', this).find('th').each(function (i, el) {
+					el.style.width = cfg.colModal[i].width +'px';
+					el.style.textAlign = cfg.colModal[i].align;
+				});
+			}
+		}
 		
 		this.addClass('ui-widget-header');
 		this.find('tbody tr').addClass('ui-widget-content');
@@ -128,11 +139,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		lc.ft_rc.after(lc.ft_c);
 		lc.ft_c.wrap($('<div />', {'class': 'ft_cwrapper'}));
-				
+		
 		/*set width/height of generated tables*/
 		var tw = 0;
 		this.add(lc.ft_r).width(cfg.tableWidth);
-		/*
+		
 		//set height of fixed_rc and fixed_c
 		for (var i = 0; i < this[0].rows.length; i++) {
 			var ch = $(this[0].rows[i]).outerHeight(true);
@@ -173,7 +184,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		for (var i = 0; i < cfg.fixedCols; i++) {
 			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
 		}
-		lc.ft_c.add(lc.ft_rc).width(tw);*/
+		lc.ft_c.add(lc.ft_rc).width(tw);
 
 		lc.ft_c			
 			.parent()
