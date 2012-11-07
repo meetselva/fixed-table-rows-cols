@@ -60,12 +60,15 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		var theadTr = $('thead', this);				
 		
+		var cols = $('colgroup', this);
+		
 		//clone the thead->tr 
 		var theadTrClone = theadTr.clone();
 		
 		//construct fixed row (full row)
 		lc.ft_rel_container
 			.prepend($(cfg.tableTmpl(), {'class': 'ft_r ui-widget-header'})
+			.append(cols.clone())	
 			.append(theadTrClone));
 
 		//an instance of fixed row
@@ -74,7 +77,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		//clone the thead again to construct the 
 		theadTrClone = theadTr.clone();
-
+		
 		//calculate the actual column's count (support for colspan)					
 		var r1c1ColSpan = 0;		
 		for (var i = 0; i < cfg.fixedCols; i++ ) {
@@ -90,9 +93,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			}).remove();
 		});
 		
+		var colsClone = cols.find('col').slice(0, cfg.fixedCols).clone();
 		//add fixed row col section
 		lc.ft_rel_container
 			.prepend($(cfg.tableTmpl(), {'class': 'ft_rc ui-widget-header'})
+			.append($('<colgroup>').append(colsClone))
 			.append(theadTrClone));
 		
 		//an instance of fixed row column
@@ -103,7 +108,9 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		lc.ft_c[0].className = 'ft_c';
 		
 		//append tbody
-		lc.ft_c.append('<tbody />');
+		lc.ft_c
+			.append(colsClone.html())
+			.append('<tbody />');
 		
 		//append row by row while just keeping the frozen cols
 		var ftc_tbody = lc.ft_c.find('tbody'); 
@@ -125,7 +132,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		/*set width/height of generated tables*/
 		var tw = 0;
 		this.add(lc.ft_r).width(cfg.tableWidth);
-				
+		/*
 		//set height of fixed_rc and fixed_c
 		for (var i = 0; i < this[0].rows.length; i++) {
 			var ch = $(this[0].rows[i]).outerHeight(true);
@@ -166,11 +173,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		for (var i = 0; i < cfg.fixedCols; i++) {
 			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
 		}
-		lc.ft_c.add(lc.ft_rc).width(tw);
+		lc.ft_c.add(lc.ft_rc).width(tw);*/
 
 		lc.ft_c			
 			.parent()
-			.css({height: cfg.height-17, width: tw})
+			.css({height: cfg.height-17})
 			.width(lc.ft_rc.outerWidth());
 		
 		lc.ft_r
