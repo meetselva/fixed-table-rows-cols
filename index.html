@@ -28,15 +28,15 @@
 					fixedCols: 1,
 					width:     500,
 					height:    300,
-					tableWidth: 800 
+					tableWidth: 380 
 				});
 				
-				$('#fixed_hdr2').fxdHdrCol({
+				/*$('#fixed_hdr2').fxdHdrCol({
 					fixedCols: 3,
 					width:     "100%",
 					height:    500,
 					tableWidth:1700 
-				});
+				});*/
 				
 				$('.example').addClass('ui-widget-content');
 			});
@@ -153,6 +153,14 @@
 				<div class="example" id="example_1">
 					<div class="e_title">Example 1</div>
 					<table id="fixed_hdr1">
+					<colgroup>
+						<col width="20px" />
+						<col width="60px" />
+						<col width="80px" />
+						<col width="50px" />
+						<col width="120px" />
+						<col width="50px" />
+					</colgroup>
 					<thead>
 					<tr>
 						<th>ID</th>

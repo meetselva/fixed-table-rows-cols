@@ -99,8 +99,9 @@ li.themes-el { padding: 2px 3px; cursor: pointer; width: 85px; font-size: 0.9em;
 
 a {
   text-decoration: none;
-  color: #007edf !important;
+  color: #2F5CA8 !important;
   text-shadow: none;
+  font-weight: bold;
 
   transition: color 0.5s ease;
   transition: text-shadow 0.5s ease;
@@ -114,10 +115,10 @@ a {
   -ms-transition: text-shadow 0.5s ease;
 }
 
-a:hover {  color: #0069ba; text-shadow: #0090ff 0px 0px 2px; }
+a:hover { color: #2F5CA8; text-shadow: #0090ff 0px 0px 2px; }
 
 pre.prettyprint, code.prettyprint {
-  width: 100%;
+  width: 98%;
   color: #222;
   background-color: #EEEEEE;
 
@@ -129,7 +130,7 @@ pre.prettyprint, code.prettyprint {
   -webkit-border-radius: 2px;
 }
 
-pre.prettyprint { width: 95%; padding: 10px; margin: 0px auto; box-shadow: 0 0 10px rgba(0,0,0,.1); overflow: auto; }
+pre.prettyprint { padding: 10px; margin: 5px 0px 5px 9px; box-shadow: 0 0 10px rgba(0,0,0,.1); overflow: auto; }
 code.prettyprint {  padding: 3px;  margin: 0 3px; box-shadow: 0 0 10px rgba(0,0,0,.1); }
 pre.prettyprint code.prettyprint { display: block; box-shadow: none; }
 
