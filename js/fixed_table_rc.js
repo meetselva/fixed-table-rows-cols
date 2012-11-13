@@ -41,12 +41,18 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			ft_c: null
 		};
 		
+		this.width(cfg.tableWidth);
 		/* if colModal is set */
 		for (var i = 0; i < cfg.colModal.length; i++) {
 			for (key in cfg.colModal[i]) {
 				$('thead', this).find('th').each(function (i, el) {
-					el.style.width = cfg.colModal[i].width +'px';
-					el.style.textAlign = cfg.colModal[i].align;
+					$(el).css({width: cfg.colModal[i].width, textAlign: cfg.colModal[i].align});
+				});
+				
+				$('tbody', this).find('tr').each(function (i, el) {
+					$('td', el).each(function (i, tdel) {
+						tdel.style.textAlign = cfg.colModal[i].align;
+					});
 				});
 			}
 		}
@@ -141,9 +147,8 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		lc.ft_c.wrap($('<div />', {'class': 'ft_cwrapper'}));
 		
 		/*set width/height of generated tables*/
-		var tw = 0;
-		this.add(lc.ft_r).width(cfg.tableWidth);
 		
+		lc.ft_c.height(this.height());
 		//set height of fixed_rc and fixed_c
 		for (var i = 0; i < this[0].rows.length; i++) {
 			var ch = $(this[0].rows[i]).outerHeight(true);
@@ -160,10 +165,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			$(lc.ft_c[0].rows[i])
 				.add(this[0].rows[i])
 				.height(ch);
-		}		
-		
-		lc.ft_c.height(this.height());
+		}				
 
+		var tw = 0;
+		lc.ft_r.width(cfg.tableWidth);
+		
 		for (var i = 0; i < this[0].rows[0].cells.length; i++) {
 			var cw = $(this[0].rows[0].cells[i]).outerWidth(true);
 			var fcw = $(lc.ft_r[0].rows[0].cells[i]).outerWidth(true);
@@ -189,7 +195,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		lc.ft_c			
 			.parent()
 			.css({height: cfg.height-17})
-			.width(lc.ft_rc.outerWidth());
+			.width(lc.ft_rc.outerWidth(true) + 1);
 		
 		lc.ft_r
 			.parent()
