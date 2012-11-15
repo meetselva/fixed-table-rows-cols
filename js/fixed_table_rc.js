@@ -22,10 +22,9 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 	$.fn.fxdHdrCol = function (o) {
 		var cfg = {
 			height: 0,
-			width: 0,
-			tableWidth: 0,
+			width: 0,		
 			fixedCols: 0,
-			colModal: [],
+			colModal: [],			
 			tableTmpl: function () {
 				return '<table />';							
 			}
@@ -38,31 +37,33 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			ft_wrapper: null,
 			ft_rc: null,
 			ft_r: null,
-			ft_c: null
+			ft_c: null,
+			tableWidth: 0
 		};
-		
-		this.width(cfg.tableWidth);
-		/* if colModal is set */
-		for (var i = 0; i < cfg.colModal.length; i++) {
-			for (key in cfg.colModal[i]) {
-				$('thead', this).find('th').each(function (i, el) {
-					$(el).css({width: cfg.colModal[i].width, textAlign: cfg.colModal[i].align});
-				});
-				
-				$('tbody', this).find('tr').each(function (i, el) {
-					$('td', el).each(function (i, tdel) {
-						tdel.style.textAlign = cfg.colModal[i].align;
-					});
-				});
-			}
-		}
 		
 		this.addClass('ui-widget-header');
 		this.find('tbody tr').addClass('ui-widget-content');
 							
 		//add base container
 		this.wrap('<div class="ft_container" />');
-		lc.ft_container = this.parent();
+		lc.ft_container = this.parent();		
+		
+		var $ths = $('thead', this).find('th');
+		var $thFirst = $ths.first();
+		var thSpace = parseInt($thFirst.css('paddingLeft'), 10) + parseInt($thFirst.css('paddingRight'), 10) + 3;
+		/* if colModal is set */
+		$ths.each(function (i, el) {
+			$(el).css({width: cfg.colModal[i].width, textAlign: cfg.colModal[i].align});
+			lc.tableWidth += cfg.colModal[i].width + thSpace; 
+		});
+		
+		this.width(lc.tableWidth);
+		
+		$('tbody', this).find('tr').each(function (i, el) {
+			$('td', el).each(function (i, tdel) {
+				tdel.style.textAlign = cfg.colModal[i].align;
+			});
+		});
 		
 		//add relative container
 		this.wrap('<div class="ft_rel_container" />');
@@ -77,15 +78,12 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		
 		var theadTr = $('thead', this);				
 		
-		var cols = $('colgroup', this);
-		
 		//clone the thead->tr 
 		var theadTrClone = theadTr.clone();
 		
 		//construct fixed row (full row)
 		lc.ft_rel_container
 			.prepend($(cfg.tableTmpl(), {'class': 'ft_r ui-widget-header'})
-			.append(cols.clone())	
 			.append(theadTrClone));
 
 		//an instance of fixed row
@@ -110,11 +108,9 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			}).remove();
 		});
 		
-		var colsClone = cols.find('col').slice(0, cfg.fixedCols).clone();
 		//add fixed row col section
 		lc.ft_rel_container
 			.prepend($(cfg.tableTmpl(), {'class': 'ft_rc ui-widget-header'})
-			.append($('<colgroup>').append(colsClone))
 			.append(theadTrClone));
 		
 		//an instance of fixed row column
@@ -125,9 +121,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		lc.ft_c[0].className = 'ft_c';
 		
 		//append tbody
-		lc.ft_c
-			.append(colsClone.html())
-			.append('<tbody />');
+		lc.ft_c.append('<tbody />');
 		
 		//append row by row while just keeping the frozen cols
 		var ftc_tbody = lc.ft_c.find('tbody'); 
@@ -146,31 +140,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		lc.ft_rc.after(lc.ft_c);
 		lc.ft_c.wrap($('<div />', {'class': 'ft_cwrapper'}));
 		
-		/*set width/height of generated tables*/
-		
-		lc.ft_c.height(this.height());
-		//set height of fixed_rc and fixed_c
-		for (var i = 0; i < this[0].rows.length; i++) {
-			var ch = $(this[0].rows[i]).outerHeight(true);
-			var fch = $(lc.ft_c[0].rows[i]).outerHeight(true);
-			
-			ch = (ch>fch)?ch:fch;
-			
-			if (i < lc.ft_rc[0].rows.length) {
-				$(lc.ft_r[0].rows[i])
-					.add(lc.ft_rc[0].rows[i])								
-					.height(ch);
-			}
-			
-			$(lc.ft_c[0].rows[i])
-				.add(this[0].rows[i])
-				.height(ch);
-		}				
-
+		/*set width/height of generated tables*/	
 		var tw = 0;
-		lc.ft_r.width(cfg.tableWidth);
+		lc.ft_r.width(lc.tableWidth);
 		
-		for (var i = 0; i < this[0].rows[0].cells.length; i++) {
+		/*for (var i = 0; i < this[0].rows[0].cells.length; i++) {
 			var cw = $(this[0].rows[0].cells[i]).outerWidth(true);
 			var fcw = $(lc.ft_r[0].rows[0].cells[i]).outerWidth(true);
 			
@@ -185,12 +159,31 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			$(lc.ft_r[0].rows[0].cells[i])
 				.add(this[0].rows[0].cells[i])
 				.width(cw);					
-		}
-
+		}*/
+		
 		for (var i = 0; i < cfg.fixedCols; i++) {
 			tw += $(this[0].rows[0].cells[i]).outerWidth(true);
 		}
 		lc.ft_c.add(lc.ft_rc).width(tw);
+
+		lc.ft_c.height(this.height());
+		//set height of fixed_rc and fixed_c
+		for (var i = 0; i < this[0].rows.length; i++) {
+			var ch = $(this[0].rows[i]).outerHeight();
+			var fch = $(lc.ft_c[0].rows[i]).outerHeight(true);
+			
+			ch = (ch>fch)?ch:fch;
+			
+			if (i < lc.ft_rc[0].rows.length) {
+				$(lc.ft_r[0].rows[i])
+					.add(lc.ft_rc[0].rows[i])								
+					.height(ch);
+			}
+			
+			$(lc.ft_c[0].rows[i])
+				.add(this[0].rows[i])
+				.height(ch);
+		}				
 
 		lc.ft_c			
 			.parent()
