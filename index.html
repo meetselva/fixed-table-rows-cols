@@ -19,19 +19,45 @@
 
 		<style>
 			#main-content { min-height: 600px; overflow: hidden; }
+			.dtable { width: 1000px; margin-left: 10px;}
+			.dtable th { font-weight: bold; }
+			.dtable th, td { border-width: 1px; border-style: solid; padding: 2px 4px; }
+			.dwrapper { padding: 2px; overflow: hidden; vertical-align: top; }
+			.dwrapper div.tblControlPane { float: left; text-align: left; }
+			
+			.dwrapper div.tblWrapper { height: 300px; overflow: auto; width: 70%; float: right; }
+			.dwrapper div.ft_container { width: 70%; float: right; }		
+			
 			body { line-height: 1.5em; }
 		</style>
 
 		<script>
 			$(function () {
+				
+				$('#applyFixedTableRC').click(function () {
+					$('#fixedHdrD1').unwrap();
+					
+					$('#fixedHdrD1').fxdHdrCol({
+						fixedCols: 2,
+						width:     "100%",
+						height:    400,
+						colModal: [
+						   { width: 40, align: 'center' },
+						   { width: 90, align: 'left' },
+						   { width: 300, align: 'left' },
+						   { width: 250, align: 'left' },
+						   { width: 100, align: 'left' },
+						   { width: 70, align: 'center' }
+						]					
+					});					
+				});
 				$('#fixed_hdr1').fxdHdrCol({
 					width:     '100%',
 					height:    400,
-					tableWidth: 1420,
 					colModal: [
-					   { width: 40, align: 'center' },
-					   { width: 100, align: 'center' },
-					   { width: 200, align: 'left' },
+					   { width: 30, align: 'center' },
+					   { width: 90, align: 'center' },
+					   { width: 170, align: 'left' },
 					   { width: 250, align: 'left' },
 					   { width: 100, align: 'left' },
 					   { width: 70, align: 'left' },
@@ -46,9 +72,8 @@
 					fixedCols: 2,
 					width:     "100%",
 					height:    500,
-					tableWidth: 1250,
 					colModal: [
-					   { width: 40, align: 'center' },
+					   { width: 30, align: 'center' },
 					   { width: 200, align: 'left' },
 					   { width: 250, align: 'left' },
 					   { width: 90, align: 'center' },
@@ -143,63 +168,97 @@
 					the fixed header and configurable number of fixed columns. It is stil under development and in beta stage, for more details read Known Issue section below.
 				</p>
 				<p>
-					The idea is from question on SO <a href="http://stackoverflow.com/questions/10838700/large-dynamically-sized-html-table-with-a-fixed-scroll-row-and-fixed-scroll-colu/10922732#10922732">Large Dynamic Table with Fixed Rows and Fixed Columns</a>. 
-					The first version of <a href="demo v0_01.html" target="_blank" >Fixed Table RC</a> was neat but it had some limitations 
-					such as nested div structures, breaks on <a href="javascript:void(0)" class="helper" data-helper-msg="WELLFORMED_HTML">well formed table</a> 
-					and the hanging scrollbars.
+					Assume a big table with thousands of rows
+					would create a long page and a tiring scroll experience to the user. To avoid this a table is ideally wrapped with a container div to position 
+					and limit the height of browser scroller (like this table below). Now using the scrollers we managed to keep the content intact but when scrolling 
+					vertically the header simply would scroll top and when scrolling horizontally some of the columns in left would scroll to left.				
 				</p>
-				<h2>Usage</h2>
-        		<p>To use the function, include <a href="http://code.jquery.com/" target="_new" class="external">jQuery library</a> and <a href="https://github.com/meetselva/fixed-table-rows-cols/blob/master/fixed_table_rc.js">fixedTableRC</a> plugin.
-<pre class="prettyprint">&lt;script type="text/javascript" src="http://code.jquery.com/jquery.min.js"&gt;&lt;/script&gt;
-&lt;script type="text/javascript"
-        src="https://raw.github.com/meetselva/fixed-table-rows-cols/master/fixed_table_rc.js"&gt;&lt;/script&gt;</pre>
-        		</p>
-        		<p>
-        		Include the css for fixed table header column plugin,
-<pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="fixed_table_rc.css.css" /&gt;</pre>        		
-        		</p>
-        		<p>
-        		Now use the plugin like below,
-<pre class="prettyprint">&lt;script type="text/javascript"&gt;
-   $(document).ready(function() {
-	$('#myTable').fxdHdrCol({
-		fixedCols    : 3,        /* 3 fixed columns */
-		width        : "100%",   /* set the width of the container (fixed or percentage)*/
-		height       : 500,      /* set the height of the container */
-		tableWidth   : 1700,     /* set the width of the actual table */
-		colModal: [              /* Optional: set the colmodal property for each tr/th or td/td*/
-					 { width: 40, align: 'center' },
-					 { width: 100, align: 'center' },
-					 { width: 200, align: 'left' },
-					 { width: 250, align: 'left' },
-					 { width: 100, align: 'left' },
-					 { width: 70, align: 'left' },
-					 { width: 100, align: 'left' },
-					 { width: 80, align: 'center' },
-					 { width: 90, align: 'left' },
-					 { width: 300, align: 'left' }
-		]
-	});
-   });
-&lt;/script&gt;</pre>        		
-        		</p>
+				<p>
+					Using <a href="https://github.com/meetselva/fixed-table-rows-cols/blob/master/fixed_table_rc.js">fixedTableRC</a> plugin you can create
+					a scrollable table with fixed header and fixed columns allowing the user to view the header and selected columns when scrolling 
+				</p>
 				<h2>Examples</h2>
+				<div class="example" id="example_d1">
+					<div class="e_title">Live Demo</div>
+					<p>
+						Below is simple demonstration to show the scrollable table issue and the resolution with the plugin. To apply the plugin, choose the settings
+						from the left pane and click Apply. 						
+					</p>
+					<div class="dwrapper">
+						<div class="tblControlPane">
+							<p>Table Control Pane</p>
+							<button id="applyFixedTableRC">Render Fixed TableRC</button>
+						</div>
+						<div class="tblWrapper">
+						<table id="fixedHdrD1" class="dtable">
+							<thead>
+							  <tr><th>SNo</th><th>Date</th><th>Name</th><th>Email</th><th>City</th><th>Zip</th></tr>
+							</thead>
+							<tbody>
+							  <tr><td>1</td><td>05/11/2013</td><td>Mona Estrada</td><td>Nullam@Sed.edu</td><td>South Bend</td><td>29175</td></tr>
+							  <tr><td>2</td><td>04/27/2012</td><td>Ezekiel Stokes</td><td>cursus.et@Curae;Phasellusornare.edu</td><td>Saratoga Springs</td><td>29305</td></tr>
+							  <tr><td>3</td><td>04/13/2013</td><td>Ava Montgomery</td><td>nunc@dignissimlacusAliquam.org</td><td>Chelsea</td><td>60899</td></tr>
+							  <tr><td>4</td><td>12/31/2012</td><td>Wesley Pruitt</td><td>litora.torquent@Aliquamgravida.edu</td><td>Kingston</td><td>12232</td></tr>
+							  <tr><td>5</td><td>10/19/2012</td><td>Marvin Hickman</td><td>et.ultrices.posuere@vestibulum.com</td><td>West Sacramento</td><td>11971</td></tr>
+							  <tr><td>6</td><td>07/09/2013</td><td>Raymond Reilly</td><td>scelerisque@felisDonec.edu</td><td>Burlingame</td><td>15638</td></tr>
+							  <tr><td>7</td><td>12/26/2011</td><td>William Petty</td><td>justo@convallis.com</td><td>Connellsville</td><td>81292</td></tr>
+							  <tr><td>8</td><td>08/09/2013</td><td>Ciaran Price</td><td>consectetuer.adipiscing@sollicitudinorci.org</td><td>Abilene</td><td>71386</td></tr>
+							  <tr><td>9</td><td>10/23/2012</td><td>Ainsley Conley</td><td>vitae.aliquet@tellusfaucibusleo.org</td><td>Basin</td><td>92374</td></tr>
+							  <tr><td>10</td><td>10/01/2012</td><td>Lynn Owen</td><td>pede.Cras.vulputate@acturpis.ca</td><td>Wahoo</td><td>59320</td></tr>
+							  <tr><td>11</td><td>07/21/2012</td><td>Orla Campbell</td><td>nunc.nulla.vulputate@libero.org</td><td>Durango</td><td>33325</td></tr>
+							  <tr><td>12</td><td>06/21/2013</td><td>Nolan Wilkins</td><td>dis.parturient.montes@ridiculusmusAenean.edu</td><td>Bowling Green</td><td>90149</td></tr>
+							  <tr><td>13</td><td>09/28/2012</td><td>Lane Reeves</td><td>eros@ipsumdolorsit.edu</td><td>DeKalb</td><td>74907</td></tr>
+							  <tr><td>14</td><td>12/17/2011</td><td>Frances Franks</td><td>a.scelerisque@feugiat.com</td><td>Weirton</td><td>50640</td></tr>
+							  <tr><td>15</td><td>02/19/2012</td><td>Suki Welch</td><td>ut@interdumenimnon.ca</td><td>Nenana</td><td>88953</td></tr>
+							  <tr><td>16</td><td>10/08/2013</td><td>Tobias Nunez</td><td>dolor@Maurisvestibulumneque.com</td><td>Elmira</td><td>62712</td></tr>
+							  <tr><td>17</td><td>01/16/2013</td><td>Harlan Morin</td><td>lobortis.Class@Crasvehicula.org</td><td>Frisco</td><td>49327</td></tr>
+							  <tr><td>18</td><td>04/09/2012</td><td>Fallon Spence</td><td>fermentum@turpisvitae.com</td><td>Manhattan</td><td>77340</td></tr>
+							  <tr><td>19</td><td>03/03/2012</td><td>Alfreda Mayer</td><td>eleifend@sociis.org</td><td>Scranton</td><td>31580</td></tr>
+							  <tr><td>20</td><td>02/25/2012</td><td>Vanna Burks</td><td>nisl.sem.consequat@liberolacusvarius.com</td><td>Manassas Park</td><td>90668</td></tr>
+							  <tr><td>21</td><td>10/13/2012</td><td>Wyoming Blankenship</td><td>eget.laoreet.posuere@turpisvitae.com</td><td>Sun Valley</td><td>06848</td></tr>
+							  <tr><td>22</td><td>12/02/2012</td><td>Idola Francis</td><td>velit.Pellentesque.ultricies@nequeMorbi.org</td><td>Idaho Springs</td><td>09699</td></tr>
+							  <tr><td>23</td><td>04/30/2012</td><td>Eleanor Nguyen</td><td>dictum.placerat.augue@velquamdignissim.edu</td><td>Hopkinsville</td><td>62679</td></tr>
+							  <tr><td>24</td><td>01/02/2013</td><td>Kelly Compton</td><td>dui.Fusce.diam@lectusCum.com</td><td>Vergennes</td><td>83992</td></tr>
+							  <tr><td>25</td><td>08/21/2012</td><td>Mariko Walsh</td><td>velit@uterat.edu</td><td>Grand Junction</td><td>47600</td></tr>
+							  <tr><td>26</td><td>09/06/2013</td><td>Gretchen Sanford</td><td>ipsum.Curabitur.consequat@Nulla.ca</td><td>Lodi</td><td>14807</td></tr>
+							  <tr><td>27</td><td>03/04/2012</td><td>Rooney Yang</td><td>interdum@molestiepharetranibh.com</td><td>Marshfield</td><td>58296</td></tr>
+							  <tr><td>28</td><td>06/14/2012</td><td>Teagan Blanchard</td><td>hymenaeos.Mauris@Duiscursusdiam.edu</td><td>Torrington</td><td>04818</td></tr>
+							  <tr><td>29</td><td>03/17/2013</td><td>Marcia Curtis</td><td>eu.tellus@Phasellus.ca</td><td>Cedar Rapids</td><td>26385</td></tr>
+							  <tr><td>30</td><td>10/30/2013</td><td>Karly Slater</td><td>Phasellus@elementumloremut.org</td><td>Seal Beach</td><td>87881</td></tr>
+							  <tr><td>31</td><td>03/28/2012</td><td>Marny Bates</td><td>Nunc.mauris.Morbi@eget.org</td><td>Lancaster</td><td>66093</td></tr>
+							  <tr><td>32</td><td>08/12/2013</td><td>Henry Rodriquez</td><td>Quisque.ornare.tortor@netuset.com</td><td>Minneapolis</td><td>03381</td></tr>
+							  <tr><td>33</td><td>08/18/2012</td><td>Charles Ratliff</td><td>a@sitametlorem.edu</td><td>Beaumont</td><td>85941</td></tr>
+							  <tr><td>34</td><td>02/08/2013</td><td>Alexandra Herring</td><td>Nunc.laoreet@velit.com</td><td>Sioux Falls</td><td>64367</td></tr>
+							  <tr><td>35</td><td>12/14/2011</td><td>Minerva Mayer</td><td>egestas.blandit.Nam@cursus.org</td><td>Calumet City</td><td>81067</td></tr>
+							  <tr><td>36</td><td>05/28/2012</td><td>Alexander Calhoun</td><td>mollis.Phasellus.libero@porttitorscelerisque.com</td><td>Richland</td><td>85149</td></tr>
+							  <tr><td>37</td><td>09/13/2013</td><td>Jason Compton</td><td>mollis.nec.cursus@rhoncusDonecest.edu</td><td>Boise</td><td>62144</td></tr>
+							  <tr><td>38</td><td>02/04/2012</td><td>Doris Carey</td><td>Morbi@neque.com</td><td>Seward</td><td>85161</td></tr>
+							  <tr><td>39</td><td>10/18/2013</td><td>Geoffrey Carney</td><td>vulputate@feugiatnon.ca</td><td>Branson</td><td>92464</td></tr>
+							  <tr><td>40</td><td>07/01/2013</td><td>Meredith Carroll</td><td>commodo.ipsum.Suspendisse@tortor.edu</td><td>Minnetonka</td><td>53549</td></tr>
+							  <tr><td>41</td><td>10/19/2013</td><td>Paloma Blanchard</td><td>Aenean@nibh.ca</td><td>Miami Gardens</td><td>86888</td></tr>
+							  <tr><td>42</td><td>05/18/2012</td><td>Gwendolyn Johns</td><td>semper@Aeneanmassa.ca</td><td>Valencia</td><td>24288</td></tr>
+							  <tr><td>43</td><td>06/20/2012</td><td>Quincy Donaldson</td><td>sit.amet.risus@in.org</td><td>Mechanicville</td><td>51537</td></tr>
+							  <tr><td>44</td><td>09/09/2013</td><td>Hedda Coleman</td><td>id.nunc@acmattis.ca</td><td>Farrell</td><td>72207</td></tr>
+							  <tr><td>45</td><td>05/25/2013</td><td>Indira Sawyer</td><td>vel.turpis@varius.org</td><td>Hoboken</td><td>39680</td></tr>
+							  <tr><td>46</td><td>05/19/2013</td><td>Ciara Chase</td><td>dictum.magna.Ut@nonluctus.com</td><td>Amesbury</td><td>13495</td></tr>
+							  <tr><td>47</td><td>05/15/2013</td><td>Martina Ward</td><td>arcu@eratnonummyultricies.com</td><td>Sheridan</td><td>92621</td></tr>
+							  <tr><td>48</td><td>03/20/2013</td><td>Genevieve Brennan</td><td>Curabitur@sit.edu</td><td>New Orleans</td><td>46869</td></tr>
+							  <tr><td>49</td><td>04/15/2013</td><td>Devin Mcguire</td><td>neque.et@estNunc.ca</td><td>Fort Dodge</td><td>21723</td></tr>
+							  <tr><td>50</td><td>09/19/2013</td><td>Herrod Manning</td><td>elit.sed@nibhlacinia.com</td><td>Vernon</td><td>45191</td></tr>						</tbody>
+						</table>
+						</div>
+					</div>
+				</div>
+
+				<p>Below are few examples demonstrating the plugin,</p>
 				<div class="example" id="example_1">
 					<div class="e_title">Example 1</div>
+					<p>
+						
+					</p>
 					<table id="fixed_hdr1">
 					<thead>
-					<tr>
-  						<th>SNo</th>
-  						<th>Order Number</th>
-  						<th>Name</th>
-  						<th>Address</th>
-  						<th>City</th>
-  						<th>Zip</th>
-  						<th>Phone</th>
-  						<th>Order Date</th>
-  						<th>Company</th>
-  						<th>Comments</th>
-  					</tr>
+						<tr><th>SNo</th><th>Order Number</th><th>Name</th><th>Address</th><th>City</th><th>Zip</th><th>Phone</th><th>Order Date</th><th>Company</th><th>Comments</th></tr>
 					</thead>
 					<tbody>
 						<tr>
@@ -739,9 +798,52 @@
 							</tr>
 						</tbody>
 					</table>
-					
 				</div>
 				
+				<h2>History</h2>
+				<p>
+					The idea is from question on SO <a href="http://stackoverflow.com/questions/10838700/large-dynamically-sized-html-table-with-a-fixed-scroll-row-and-fixed-scroll-colu/10922732#10922732">Large Dynamic Table with Fixed Rows and Fixed Columns</a>. 
+					The first version of <a href="demo v0_01.html" target="_blank" >Fixed Table RC</a> was neat but it had some limitations 
+					such as nested div structures, breaks on <a href="javascript:void(0)" class="helper" data-helper-msg="WELLFORMED_HTML">well formatted table</a> 
+					and the hanging scrollbars.
+				</p>
+				<p>
+					This new version has lot of bug fixes, better browser compatibilty, performance improvements, code optimization,
+					new colModal options and more options to come.
+				</p>
+				<h2>Usage</h2>
+        		<p>To use the function, include <a href="http://code.jquery.com/" target="_new" class="external">jQuery library</a> and <a href="https://github.com/meetselva/fixed-table-rows-cols/blob/master/fixed_table_rc.js">fixedTableRC</a> plugin.
+<pre class="prettyprint">&lt;script type="text/javascript" src="http://code.jquery.com/jquery.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="https://raw.github.com/meetselva/fixed-table-rows-cols/master/fixed_table_rc.js"&gt;&lt;/script&gt;</pre>
+        		</p>
+        		<p>
+        		Include the css for fixed table header column plugin,
+<pre class="prettyprint">&lt;link rel="stylesheet" type="text/css" href="fixed_table_rc.css.css" /&gt;</pre>        		
+        		</p>
+        		<p>
+        		Now use the plugin like below,
+<pre class="prettyprint">&lt;script type="text/javascript"&gt;
+   $(document).ready(function() {
+	$('#myTable').fxdHdrCol({
+		fixedCols    : 3,        /* 3 fixed columns */
+		width        : "100%",   /* set the width of the container (fixed or percentage)*/
+		height       : 500,      /* set the height of the container */
+		colModal: [              /* Optional: set the colmodal property for each tr/th or td/td*/
+			 { width: 40, align: 'center' },
+			 { width: 100, align: 'center' },
+			 { width: 200, align: 'left' },
+			 { width: 250, align: 'left' },
+			 { width: 100, align: 'left' },
+			 { width: 70, align: 'left' },
+			 { width: 100, align: 'left' },
+			 { width: 80, align: 'center' },
+			 { width: 90, align: 'left' },
+			 { width: 300, align: 'left' }
+		]
+	});
+   });
+&lt;/script&gt;</pre>        		
+        		</p>				
 				<!-- div class="example">
 					<div class="e_title">Example 2</div>
 					

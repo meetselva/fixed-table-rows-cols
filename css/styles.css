@@ -73,7 +73,8 @@ li.themes-el { padding: 2px 3px; cursor: pointer; width: 85px; font-size: 0.9em;
 .hidden { display: none; }
 .strong { font-weight: bold; }
 .example { margin: 5px 2px; padding: 2px 5px; border-width: 0px; }
-.example .e_title { margin: 5px; padding: 5px; padding-bottom: 2px; border-bottom: 2px solid white; font-size: 1.5em; }
+.example p { margin-bottom: 5px; }
+.example .e_title { margin: 2px; padding: 2px; padding-bottom: 2px; border-bottom: 2px solid white; font-size: 1.5em; }
 
 #c_helper { border-radius: 5px; padding: 10px; position: absolute; display: none; border: 1px solid; font-size: 0.9em; max-width: 250px; background-color: #FFF8DC; }
 
