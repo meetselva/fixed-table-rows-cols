@@ -119,7 +119,7 @@ a {
 a:hover { color: #2F5CA8; text-shadow: #0090ff 0px 0px 2px; }
 
 pre.prettyprint, code.prettyprint {
-  width: 98%;
+  width: 90%;
   color: #222;
   background-color: #EEEEEE;
 
@@ -136,3 +136,36 @@ code.prettyprint {  padding: 3px;  margin: 0 3px; box-shadow: 0 0 10px rgba(0,0,
 pre.prettyprint code.prettyprint { display: block; box-shadow: none; }
 
 #page-content.ui-widget-content { border-width: 0px; }
+
+.button {
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;	
+	font-weight: bold;
+	font-size: 0.8em;
+	padding: .1em 1em .2em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px #c2c2c2;
+	-moz-box-shadow: 0 1px 2px #c2c2c2;
+	box-shadow: 0 1px 2px #c2c2c2;
+	color: white;
+	background-color: #68A3CF;
+}
+.button:hover {
+	text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+.disabled {
+	background-color: #f2f2f2;
+	cursor: auto;
+	color: #c2c2c2;
+}

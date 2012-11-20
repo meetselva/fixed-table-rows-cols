@@ -48,17 +48,24 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 		this.wrap('<div class="ft_container" />');
 		lc.ft_container = this.parent();		
 		
-		var $ths = $('thead', this).find('th');
+		var $ths = $('thead tr', this).first().find('th');
 		var $thFirst = $ths.first();
 		var thSpace = parseInt($thFirst.css('paddingLeft'), 10) + parseInt($thFirst.css('paddingRight'), 10) + 3;
-		/* if colModal is set */
+		
+		/* set width and textAlign from colModal */
+		var ct = 0;
 		$ths.each(function (i, el) {
-			$(el).css({width: cfg.colModal[i].width, textAlign: cfg.colModal[i].align});
-			lc.tableWidth += cfg.colModal[i].width + thSpace; 
+			var calcWidth = 0;
+			for (var j = 0; j < el.colSpan; j++) {
+				calcWidth += cfg.colModal[ct].width;
+				ct++;
+			}
+			$(el).css({width: calcWidth, textAlign: cfg.colModal[ct-1].align});
+			lc.tableWidth += calcWidth + thSpace;			
 		});
 		
 		this.width(lc.tableWidth);
-		
+				
 		$('tbody', this).find('tr').each(function (i, el) {
 			$('td', el).each(function (i, tdel) {
 				tdel.style.textAlign = cfg.colModal[i].align;
@@ -103,13 +110,11 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			}					
 			
 			//prepare rows/cols for fixed row col section
-			$.each($('tr', theadTrClone), function (idx, el) {			
-				var tdct = 0;
-				$(el).find('th').filter( function () {
-					tdct += this.colSpan;
-					return tdct > r1c1ColSpan;
-				}).remove();
-			});
+			var tdct = 0;
+			$('tr', theadTrClone).first().find('th').filter( function () {
+				tdct += this.colSpan;
+				return tdct > r1c1ColSpan;
+			}).remove();
 			
 			//add fixed row col section
 			lc.ft_rel_container
