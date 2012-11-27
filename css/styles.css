@@ -169,3 +169,5 @@ pre.prettyprint code.prettyprint { display: block; box-shadow: none; }
 	cursor: auto;
 	color: #c2c2c2;
 }
+
+.flairs { margin-left: 20px; overflow: hidden; }
