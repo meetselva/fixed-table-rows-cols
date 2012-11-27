@@ -25,3 +25,7 @@ when scrolling horizontally, the columns in left would scroll left hiding from t
 
 The goal of <a href="https://github.com/meetselva/fixed-table-rows-cols/blob/master/fixed_table_rc.js">fixedTableRC</a> plugin is to create
 a scrollable table with fixed header and fixed columns while scrolling horizontally and vertically. 
+
+DEMO:
+=====
+http://meetselva.github.com/fixed-table-rows-cols/
