@@ -23,7 +23,7 @@ $(function () {
 		
 		var selectedTheme = $(this).data('theme');
 				
-		util.showOverlay($(document), 'Loading the new theme, Please wait..', function (selectedTheme) {
+		util.showOverlay($('body'), 'Loading the new theme, Please wait..', function (selectedTheme) {
 			var linkURL = $('link')[1].href;
 			linkURL = linkURL.substring(0, linkURL.indexOf('\/themes\/') + 8);
 			$('link')[1].href = linkURL + selectedTheme + '/jquery-ui.css';
