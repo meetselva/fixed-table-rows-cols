@@ -27,7 +27,8 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			colModal: [],			
 			tableTmpl: function () {
 				return '<table />';							
-			}
+			},
+			sort: false
 		};
 		$.extend(cfg, o);
 		
@@ -51,9 +52,14 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			lc.ft_container = $this.parent();		
 			
 			var $ths = $('thead tr', $this).first().find('th');
-			var $thFirst = $ths.first();
-			var thSpace = parseInt($thFirst.css('paddingLeft'), 10) + parseInt($thFirst.css('paddingRight'), 10) + 3;
 			
+			if (cfg.sort && sorttable && cfg.fixedCols == 0) {				
+				$ths.addClass('fx_sort_bg');				
+			}
+
+			var $thFirst = $ths.first();
+			var thSpace = parseInt($thFirst.css('paddingLeft'), 10) + parseInt($thFirst.css('paddingRight'), 10);
+
 			/* set width and textAlign from colModal */
 			var ct = 0;
 			$ths.each(function (i, el) {
@@ -63,17 +69,18 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 					ct++;
 				}
 				$(el).css({width: calcWidth, textAlign: cfg.colModal[ct-1].align});
-				lc.tableWidth += calcWidth + thSpace;			
+				
+				lc.tableWidth += calcWidth + thSpace + ((i == 0)?2:1);
 			});
-			
-			$this.width(lc.tableWidth);
-					
+								
 			$('tbody', $this).find('tr').each(function (i, el) {
 				$('td', el).each(function (i, tdel) {
 					tdel.style.textAlign = cfg.colModal[i].align;
 				});
 			});
 			
+			$this.width(lc.tableWidth);
+
 			//add relative container
 			$this.wrap('<div class="ft_rel_container" />');
 			lc.ft_rel_container = $this.parent();
@@ -85,8 +92,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			$this.wrap('<div class="ft_scroller" />');
 			lc.ft_wrapper = $this.parent();
 			
-			var theadTr = $('thead', $this);				
-			
+			var theadTr = $('thead', $this);
 			//clone the thead->tr 
 			var theadTrClone = theadTr.clone();
 			
@@ -186,7 +192,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				.css({width: lc.ft_rel_container.width()- 17});
 			
 			//events (scroll and resize)
-			lc.ft_wrapper.scroll(function () {						
+			lc.ft_wrapper.scroll(function () {
 				if (cfg.fixedCols > 0) { 
 					lc.ft_c.css('top', ($(this).scrollTop()*-1));
 				}
@@ -198,8 +204,35 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				.parent()
 				.css({width: lc.ft_rel_container.width()- 17});			
 			});*/
+			
+			if (cfg.sort && sorttable && cfg.fixedCols == 0) {
+				
+				$('table', lc.ft_container).addClass('sorttable');
+				
+				sorttable.makeSortable(this);
+				
+				var $sortableTh = $('.fx_sort_bg', lc.ft_rel_container);
+				
+				$sortableTh.click (function () {
+					var $this = $(this);
+					var isAscSort = $this.hasClass('fx_sort_asc'); 
+					
+					$sortableTh.removeClass('fx_sort_asc fx_sort_desc');
+					
+					if (isAscSort) { 
+						$this.addClass('fx_sort_desc').removeClass('fx_sort_asc'); 
+					} else { 
+						$this.addClass('fx_sort_asc').removeClass('fx_sort_desc'); 
+					}
+					
+					var idx = $(this).index();
+					
+					sorttable.innerSortFunction.apply(lc.ft_wrapper.find('th').get(idx), []);
+				});
+			}
+
 		});
 
-	};				
-	
+	};	
+
 })(jQuery);
