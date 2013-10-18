@@ -2,7 +2,7 @@ body { font-family: Trebuchet MS,Tahoma,Verdana,Arial,sans-serif; font-size: 80%
 
 ul li { list-style: none; }
 
-a { text-decoration: none;  }
+a, a:visited, a:active { text-decoration: none; }
 a:hover { color: orange; }
 a.glow { text-decoration: none; color: #2F5CA8 !important; text-shadow: none; font-weight: bold; transition: color 0.5s ease; transition: text-shadow 0.5s ease;-webkit-transition: color 0.5s ease; -webkit-transition: text-shadow 0.5s ease; -moz-transition: color 0.5s ease; -moz-transition: text-shadow 0.5s ease; -o-transition: color 0.5s ease; -o-transition: text-shadow 0.5s ease; -ms-transition: color 0.5s ease; -ms-transition: text-shadow 0.5s ease; }
 a.glow:hover { color: #2F5CA8; text-shadow: #0090ff 0px 0px 2px; }
@@ -31,19 +31,18 @@ pre.prettyprint code.prettyprint { display: block; box-shadow: none; }
 
 li.themes-el { padding: 2px 3px; cursor: pointer; width: 85px; font-size: 0.9em; border:1px solid #c2c2c2; border-radius: 5px; margin: 2px; display: inline-block; }
 
-#page-content {  margin: 2px 10px; width: 100%; /*background-color: #e9e9e9;*/ min-width: 900px; }
+#page-content {  margin: 2px auto; width: 100%; /*background-color: #e9e9e9;*/ min-width: 900px; position: relative; }
 #page-content h2 { font-size: 1.5em; padding-bottom: 4px; border-bottom: 1px solid; margin: 10px 0px;}
 #page-content.ui-widget-content { border-width: 0px; }
 
-#left-content { margin: 0px 5px; width: 15%; display: inline-block; padding: 15px 10px; border-top: 0px; border-left: 0px; border-bottom: 0px; }
-#left-content h3 { margin-top: 10px; }
+#left-content { position: absolute; padding: 15px 10px; overflow: hidden; width: 200px;}
 #left-content ul { margin-left: 5px; margin-top: 5px; }
 #left-content ul li { margin-top: 5px; }
 .sub_menu { display: none; }
 .sub_menu li { margin-left: 10px; }
 .news-item { font-size: 0.9em; margin-top: 10px; padding-right: 10px; }
 
-#main-content {	padding: 6px; padding-bottom: 10px; vertical-align: top;  display: inline-block; width: 77%; }
+#main-content {	padding: 6px; padding-bottom: 10px; padding-left: 10px; vertical-align: top; display: inline-block; margin: 0px 10px; margin-left: 225px; border-top: 0px; border-right: 0px; border-bottom: 0px;}
 #main-content p { line-height: 1.7em; padding-top: 10px;  }
 /* end layout css */
 

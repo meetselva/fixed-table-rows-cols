@@ -71,6 +71,15 @@ $(function () {
 	});
 	
 	$('#c_overlay').fadeOut(1000);
+	
+	$(window).scroll(function () {
+		var pageOffset = $('#page-content').offset().top;
+		var topPos = 0;
+		if ($(document).scrollTop() > pageOffset) {
+			topPos = $(document).scrollTop() - pageOffset;
+		} 
+		$('#left-content').css('top', topPos);
+	});
 });
 
 var util = {
