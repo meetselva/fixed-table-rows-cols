@@ -7,6 +7,25 @@ Copyright (C) 2013 Selvakumar Arumugam
 You may use attrchange plugin under the terms of the MIT Licese.
 https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 */
+/*
+A jQuery plugin to convert a well formatted table into a table with fixed
+rows and columns.
+
+Copyright (C) (2011-2012) Selvakumar Arumugam
+
+This program is free software: you  can redistribute it and/or modify it
+under the  terms of the GNU  General Public License as  published by the
+Free Software Foundation,  either version 3 of the License,  or (at your
+option) any later version.
+
+This  program  is distributed  in  the  hope  that  it will  be  useful,
+but  WITHOUT  ANY  WARRANTY;  without   even  the  implied  warranty  of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+Public License for more details.
+
+You should have received a copy  of the GNU General Public License along
+with this program. If not, see <http://www.gnu.org/licenses/>.
+*/
 (function ($) {
 	
 	$.fn.fxdHdrCol = function (o) {
@@ -17,7 +36,8 @@ https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 			colModal: [],			
 			tableTmpl: function () {
 				return '<table />';							
-			}
+			},
+			sort: false
 		};
 		$.extend(cfg, o);
 		
@@ -41,9 +61,14 @@ https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 			lc.ft_container = $this.parent();		
 			
 			var $ths = $('thead tr', $this).first().find('th');
-			var $thFirst = $ths.first();
-			var thSpace = parseInt($thFirst.css('paddingLeft'), 10) + parseInt($thFirst.css('paddingRight'), 10) + 3;
 			
+			if (cfg.sort && sorttable && cfg.fixedCols == 0) {				
+				$ths.addClass('fx_sort_bg');				
+			}
+
+			var $thFirst = $ths.first();
+			var thSpace = parseInt($thFirst.css('paddingLeft'), 10) + parseInt($thFirst.css('paddingRight'), 10);
+
 			/* set width and textAlign from colModal */
 			var ct = 0;
 			$ths.each(function (i, el) {
@@ -53,17 +78,18 @@ https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 					ct++;
 				}
 				$(el).css({width: calcWidth, textAlign: cfg.colModal[ct-1].align});
-				lc.tableWidth += calcWidth + thSpace;			
+				
+				lc.tableWidth += calcWidth + thSpace + ((i == 0)?2:1);
 			});
-			
-			$this.width(lc.tableWidth);
-					
+								
 			$('tbody', $this).find('tr').each(function (i, el) {
 				$('td', el).each(function (i, tdel) {
 					tdel.style.textAlign = cfg.colModal[i].align;
 				});
 			});
 			
+			$this.width(lc.tableWidth);
+
 			//add relative container
 			$this.wrap('<div class="ft_rel_container" />');
 			lc.ft_rel_container = $this.parent();
@@ -75,8 +101,7 @@ https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 			$this.wrap('<div class="ft_scroller" />');
 			lc.ft_wrapper = $this.parent();
 			
-			var theadTr = $('thead', $this);				
-			
+			var theadTr = $('thead', $this);
 			//clone the thead->tr 
 			var theadTrClone = theadTr.clone();
 			
@@ -176,7 +201,7 @@ https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 				.css({width: lc.ft_rel_container.width()- 17});
 			
 			//events (scroll and resize)
-			lc.ft_wrapper.scroll(function () {						
+			lc.ft_wrapper.scroll(function () {
 				if (cfg.fixedCols > 0) { 
 					lc.ft_c.css('top', ($(this).scrollTop()*-1));
 				}
@@ -188,8 +213,35 @@ https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
 				.parent()
 				.css({width: lc.ft_rel_container.width()- 17});			
 			});*/
+			
+			if (cfg.sort && sorttable && cfg.fixedCols == 0) {
+				
+				$('table', lc.ft_container).addClass('sorttable');
+				
+				sorttable.makeSortable(this);
+				
+				var $sortableTh = $('.fx_sort_bg', lc.ft_rel_container);
+				
+				$sortableTh.click (function () {
+					var $this = $(this);
+					var isAscSort = $this.hasClass('fx_sort_asc'); 
+					
+					$sortableTh.removeClass('fx_sort_asc fx_sort_desc');
+					
+					if (isAscSort) { 
+						$this.addClass('fx_sort_desc').removeClass('fx_sort_asc'); 
+					} else { 
+						$this.addClass('fx_sort_asc').removeClass('fx_sort_desc'); 
+					}
+					
+					var idx = $(this).index();
+					
+					sorttable.innerSortFunction.apply(lc.ft_wrapper.find('th').get(idx), []);
+				});
+			}
+
 		});
 
-	};				
-	
+	};	
+
 })(jQuery);
