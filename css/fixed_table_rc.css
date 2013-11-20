@@ -1,4 +1,4 @@
-.ft_container table { border-width: 0px; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; font-size: 0.9em; table-layout: fixed; }
+.ft_container table { border-width: 0px; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; font-size: 0.9em; }
 
 .ft_container table tr th {	font-weight: bold; }
 
@@ -11,9 +11,9 @@
 .ft_container table tr td:first-child,
 .ft_container table tr th:first-child { border-left-width: 1px; border-color: #CCCCCC; }
 
-.ft_container { overflow: hidden; padding: 2px; }
+.ft_container { overflow: hidden; padding: 0px; }
 
-.ft_rel_container { position: relative; overflow: hidden; border-width: 0px;}
+.ft_rel_container { position: relative; overflow: hidden; border-width: 0px; width: 100%; height: 100%; }
 
 .ft_r, .ft_rc { background-image: none; }
 .ft_rc { position: absolute; z-index: 1005; }
@@ -22,7 +22,7 @@
 .ft_rwrapper, .ft_cwrapper { overflow: hidden; position: absolute; z-index: 1001; border-width: 0px;  padding: 0px; margin: 0px; }
 /*.ft_rwrapper { width: 100%; padding-right: 17px; }*/
 
-.ft_scroller { width: 100%; overflow: auto; height: 100%; padding: 0px; margin: 0px;}
+.ft_scroller { overflow: auto; height: 100%; padding: 0px; margin: 0px;}
 
 .ft_container tbody tr.ui-widget-content, thead.ui-widget-header { background-image: none; }
 

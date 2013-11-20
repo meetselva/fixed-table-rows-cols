@@ -42,7 +42,7 @@ li.themes-el { padding: 2px 3px; cursor: pointer; width: 85px; font-size: 0.9em;
 .sub_menu li { margin-left: 10px; }
 .news-item { font-size: 0.9em; margin-top: 10px; padding-right: 10px; }
 
-#main-content {	padding: 6px; padding-bottom: 10px; padding-left: 10px; vertical-align: top; display: inline-block; margin: 0px 10px; margin-left: 225px; border-top: 0px; border-right: 0px; border-bottom: 0px;}
+#main-content {	padding: 6px; padding-bottom: 10px; padding-left: 10px; vertical-align: top; display: inline-block; margin: 0px 10px; margin-left: 225px; border-top: 0px; border-right: 0px; border-bottom: 0px; }
 #main-content p { line-height: 1.7em; padding-top: 10px;  }
 /* end layout css */
 
