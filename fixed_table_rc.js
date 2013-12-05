@@ -2,15 +2,6 @@
 A jQuery plugin to convert a well formatted table into a table with fixed
 rows and columns.
 
-About License:
-Copyright (C) 2013 Selvakumar Arumugam
-You may use attrchange plugin under the terms of the MIT Licese.
-https://github.com/meetselva/fixed-table-rows-cols/blob/master/MIT-License.txt
-*/
-/*
-A jQuery plugin to convert a well formatted table into a table with fixed
-rows and columns.
-
 Copyright (C) (2011-2012) Selvakumar Arumugam
 
 This program is free software: you  can redistribute it and/or modify it
@@ -56,9 +47,8 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			$this.addClass('ui-widget-header');
 			$this.find('tbody tr').addClass('ui-widget-content');
 								
-			//add base container
 			$this.wrap('<div class="ft_container" />');
-			lc.ft_container = $this.parent();		
+			lc.ft_container = $this.parent().css({width: cfg.width, height: cfg.height});		
 			
 			var $ths = $('thead tr', $this).first().find('th');
 			
@@ -93,13 +83,10 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 			//add relative container
 			$this.wrap('<div class="ft_rel_container" />');
 			lc.ft_rel_container = $this.parent();
-			
-			//set width and height for rel container
-			lc.ft_rel_container.css({width: cfg.width, height: cfg.height});
-			
+						
 			//add wrapper to base table which will have the scrollbars
 			$this.wrap('<div class="ft_scroller" />');
-			lc.ft_wrapper = $this.parent();
+			lc.ft_wrapper = $this.parent().css('width', cfg.width - 5);
 			
 			var theadTr = $('thead', $this);
 			//clone the thead->tr 
@@ -198,7 +185,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 
 			lc.ft_r
 				.parent()
-				.css({width: lc.ft_rel_container.width()- 17});
+				.css({width: lc.ft_wrapper.width()- 17});
 			
 			//events (scroll and resize)
 			lc.ft_wrapper.scroll(function () {
