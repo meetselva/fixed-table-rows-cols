@@ -179,7 +179,7 @@ with this program. If not, see <http://www.gnu.org/licenses/>.
 				
 				lc.ft_c			
 					.parent()
-					.css({height: cfg.height-17})
+					.css({height: lc.ft_container.height() - 17})
 					.width(lc.ft_rc.outerWidth(true) + 1);
 			}		
 

@@ -1,4 +1,4 @@
-.ft_container table { border-width: 0px; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; font-size: 0.9em; }
+.ft_container table { border-width: 0px; margin: 0px; border-collapse: collapse; margin: 0; outline-style: none; font-size: 0.9em; background-color: #fff; }
 
 .ft_container table tr th {	font-weight: bold; }
 
@@ -27,6 +27,6 @@
 .ft_container tbody tr.ui-widget-content, thead.ui-widget-header { background-image: none; }
 
 .ft_container table.sorttable thead tr th { cursor: pointer; }
-.ft_container table thead tr th.fx_sort_bg{ background-image: url(../images/bg.gif); background-position: right center; background-repeat: no-repeat; }
-.ft_container table thead tr th.fx_sort_asc{ background-image: url(../images/asc.gif); }
-.ft_container table thead tr th.fx_sort_desc{ background-image: url(../images/desc.gif); }
+.ft_container table thead tr th.fx_sort_bg{ background-image: url(images/bg.gif); background-position: right center; background-repeat: no-repeat; }
+.ft_container table thead tr th.fx_sort_asc{ background-image: url(images/asc.gif); }
+.ft_container table thead tr th.fx_sort_desc{ background-image: url(images/desc.gif); }
