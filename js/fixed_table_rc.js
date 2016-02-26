@@ -187,7 +187,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				
 				lc.ft_c_left			
 					.parent()
-					.css({height: lc.ft_container.height() - 13})
+					.css({height: lc.ft_container.height() - getScrollBarHeight()})
 					.width(lc.ft_rc.outerWidth(true) + 1);
 			}
 			
@@ -210,7 +210,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 
                 //add fixed row col section
                 lc.ft_rel_container
-                    .append($(cfg.tableTmpl(), {'class': 'ft_rc_right ' + cfg.tableClasses})
+                    .append($(cfg.tableTmpl(), {'class': 'ft_rc_right ' + cfg.tableClasses, 'style': 'right: ' + getScrollBarWidth() + 'px'})
                     .append(theadTrClone));
                 
                 //an instance of fixed row column
@@ -219,6 +219,8 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 //now clone the fixed row column and append tbody for the remaining rows
                 lc.ft_c_right = lc.ft_rc.clone();
                 lc.ft_c_right[0].className = 'ft_c ' + cfg.tableClasses;
+                // Blank out the style so it loses the 'right'
+                lc.ft_c_right[0].style.right = '';
                 
                 //append tbody
                 lc.ft_c_right.append('<tbody />');
@@ -238,7 +240,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 });
                 
                 lc.ft_rc.before(lc.ft_c_right);
-                lc.ft_c_right.wrap($('<div />', {'class': 'ft_cwrapper_right'}));
+                lc.ft_c_right.wrap($('<div />', {'class': 'ft_cwrapper_right', 'style': 'right: ' + (getScrollBarWidth()-1) + 'px'}));
 
                 var tw = 0;
                 for (var i = this.rows[0].cells.length-1; i > this.rows[0].cells.length-1-cfg.rightFixedCols; i--) {
@@ -267,7 +269,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 
                 lc.ft_c_right         
                     .parent()
-                    .css({height: lc.ft_container.height() - 13})
+                    .css({height: lc.ft_container.height() - getScrollBarHeight()})
                     .width(lc.ft_rc.outerWidth(true) + 1);
             }
 
@@ -285,6 +287,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 }
 				lc.ft_r.css('left', ($(this).scrollLeft()*-1));
 			});
+			
+			if (cfg.leftFixedCols > 0 && cfg.rightFixedCols > 0) {
+			    fixFrozenColumnScrolling(lc.ft_c_left, lc.ft_c_right, lc.ft_wrapper);
+			} else if (cfg.leftFixedCols > 0) {
+			    fixFrozenColumnScrolling(lc.ft_c_left, null, lc.ft_wrapper);
+			} else if (cfg.rightFixedCols > 0) {
+			    fixFrozenColumnScrolling(null, lc.ft_c_right, lc.ft_wrapper);
+			}
 			
 			/*$(window).on('resize', function () {
 				lc.ft_r
@@ -319,7 +329,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 
 		});
-
+		
+		function fixFrozenColumnScrolling(selectorOne, selectorTwo, scrollElement) {
+		    if (selectorOne != null) {
+		        $(selectorOne).bind('mousewheel DOMMouseScroll', function(event) {
+		            event.preventDefault();
+		            var scrollTo;
+                    if (event.originalEvent.detail) {
+                        scrollTo = event.originalEvent.detail*15;
+                    } else {
+                        scrollTo = (event.originalEvent.wheelDeltaY/40)*-15;
+                    }
+                    
+                    scrollElement.stop().animate({
+                        scrollTop: scrollElement.scrollTop() + scrollTo,
+                    }, 150);
+		        });
+		    }
+		    if (selectorTwo != null) {
+		        $(selectorTwo).bind('mousewheel DOMMouseScroll wheel onmousewheel', function(event) {
+		            event.preventDefault();
+		            var scrollTo;
+		            if (event.originalEvent.detail) {
+		                scrollTo = event.originalEvent.detail*15;
+		            } else {
+		                scrollTo = (event.originalEvent.wheelDeltaY/40)*-15;
+		            }
+		            
+		            scrollElement.stop().animate({
+                        scrollTop: scrollElement.scrollTop() + scrollTo,
+                    }, 150);
+                });
+		    }
+		}
+		function getScrollBarWidth() {
+		    var $outer = $('<div>').css({visibility: 'hidden', width: 100, overflow: 'scroll'}).appendTo('body'),
+		        widthWithScroll = $('<div>').css({width: '100%'}).appendTo($outer).outerWidth();
+		    $outer.remove();
+		    return 100 - widthWithScroll;
+		};
+		function getScrollBarHeight() {
+            var $outer = $('<div>').css({visibility: 'hidden', height: 100, overflow: 'scroll'}).appendTo('body'),
+                heightWithScroll = $('<div>').css({height: '100%'}).appendTo($outer).outerHeight();
+            $outer.remove();
+            return 100 - heightWithScroll;
+        };
 	};	
 
 })(jQuery);
+

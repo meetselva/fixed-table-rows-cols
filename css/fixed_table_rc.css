@@ -31,7 +31,6 @@
     position: absolute;
     z-index: 956;
     top: -10px;
-    right: 13px;
 }
 
 .ft_r, .ft_c {
@@ -55,7 +54,6 @@
     padding: 0px;
     margin: 0px;
     top: 0;
-    right: 12px;
 }
 
 .ft_scroller {
