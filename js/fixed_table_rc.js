@@ -121,11 +121,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				}					
 				
 				//prepare rows/cols for fixed row col section
-				var tdct = 0;
-				$('tr', theadTrClone).first().find('th').filter( function () {
-					tdct += this.colSpan;
-					return tdct > r1c1ColSpan;
-				}).remove();
+		        $('tr', theadTrClone).each(function () {
+		          var tdct = 0;
+		          $(this).find('th').filter(function() {
+		            tdct += this.colSpan;
+		            return tdct > r1c1ColSpan;
+		          }).remove();
+		        });
 				
 				//add fixed row col section
 				lc.ft_rel_container
