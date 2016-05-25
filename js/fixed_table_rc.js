@@ -30,12 +30,14 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		var cfg = {
 			height: 0,
 			width: 0,		
-			fixedCols: 0,
-			colModal: [],			
+			leftFixedCols: 0,
+			rightFixedCols: 0,
+			colModal: [],
 			tableTmpl: function () {
 				return '<table />';							
 			},
-			sort: false
+			sort: false,
+			tableClasses: ''
 		};
 		$.extend(cfg, o);
 		
@@ -46,20 +48,19 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					ft_wrapper: null,
 					ft_rc: null,
 					ft_r: null,
-					ft_c: null,
+					ft_c_left: null,
+					ft_c_right: null,
 					tableWidth: 0
 			};
 			
 			var $this = $(this);
-			$this.addClass('ui-widget-header');
-			$this.find('tbody tr').addClass('ui-widget-content');
 								
 			$this.wrap('<div class="ft_container" />');
 			lc.ft_container = $this.parent().css({width: cfg.width, height: cfg.height});		
 			
 			var $ths = $('thead tr', $this).first().find('th');
 			
-			if (cfg.sort && sorttable && cfg.fixedCols == 0) {				
+			if (cfg.sort && sorttable && cfg.leftFixedCols == 0) {				
 				$ths.addClass('fx_sort_bg');				
 			}
 
@@ -101,7 +102,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 			//construct fixed row (full row)
 			lc.ft_rel_container
-				.prepend($(cfg.tableTmpl(), {'class': 'ft_r ui-widget-header'})
+				.prepend($(cfg.tableTmpl(), {'class': 'ft_r ' + cfg.tableClasses})
 				.append(theadTrClone));
 
 			//an instance of fixed row
@@ -110,13 +111,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			
 			lc.ft_r.width(lc.tableWidth);
 			
-			if (cfg.fixedCols > 0) {
+			if (cfg.leftFixedCols > 0) {
 				//clone the thead again to construct the 
 				theadTrClone = theadTr.clone();
 				
 				//calculate the actual column's count (support for colspan)					
-				var r1c1ColSpan = 0;		
-				for (var i = 0; i < cfg.fixedCols; i++ ) {
+				var r1c1ColSpan = 0;	
+				for (var i = 0; i < cfg.leftFixedCols; i++ ) {
 					r1c1ColSpan += this.rows[0].cells[i].colSpan;			
 				}					
 				
@@ -131,21 +132,21 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				
 				//add fixed row col section
 				lc.ft_rel_container
-					.prepend($(cfg.tableTmpl(), {'class': 'ft_rc ui-widget-header'})
+					.prepend($(cfg.tableTmpl(), {'class': 'ft_rc ' + cfg.tableClasses})
 					.append(theadTrClone));
 				
 				//an instance of fixed row column
 				lc.ft_rc = $('.ft_rc', lc.ft_rel_container);
 				
 				//now clone the fixed row column and append tbody for the remaining rows
-				lc.ft_c = lc.ft_rc.clone();
-				lc.ft_c[0].className = 'ft_c';
+				lc.ft_c_left = lc.ft_rc.clone();
+				lc.ft_c_left[0].className = 'ft_c ' + cfg.tableClasses;
 				
 				//append tbody
-				lc.ft_c.append('<tbody />');
+				lc.ft_c_left.append('<tbody />');
 				
 				//append row by row while just keeping the frozen cols
-				var ftc_tbody = lc.ft_c.find('tbody'); 
+				var ftc_tbody = lc.ft_c_left.find('tbody'); 
 				$.each ($this.find('tbody > tr'), function (idx, el) {
 					var tr = $(el).clone();
 					
@@ -158,20 +159,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 					ftc_tbody.append(tr);
 				});
 				
-				lc.ft_rc.after(lc.ft_c);
-				lc.ft_c.wrap($('<div />', {'class': 'ft_cwrapper'}));
+				lc.ft_rc.after(lc.ft_c_left);
+				lc.ft_c_left.wrap($('<div />', {'class': 'ft_cwrapper'}));
 
 				var tw = 0;
-				for (var i = 0; i < cfg.fixedCols; i++) {
+				for (var i = 0; i < cfg.leftFixedCols; i++) {
 					tw += $(this.rows[0].cells[i]).outerWidth(true);
 				}
-				lc.ft_c.add(lc.ft_rc).width(tw);       
-				lc.ft_c.height($this.outerHeight(true));
+				lc.ft_c_left.add(lc.ft_rc).width(tw);       
+				lc.ft_c_left.height($this.outerHeight(true));
 					
 				//set height of fixed_rc and fixed_c
 				for (var i = 0; i < this.rows.length; i++) {
 					var ch = $(this.rows[i]).outerHeight();
-					var fch = $(lc.ft_c[0].rows[i]).outerHeight(true);
+					var fch = $(lc.ft_c_left[0].rows[i]).outerHeight(true);
 					
 					ch = (ch>fch)?ch:fch;
 					
@@ -181,28 +182,121 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 							.height(ch);
 					}
 					
-					$(lc.ft_c[0].rows[i])
+					$(lc.ft_c_left[0].rows[i])
 						.add(this.rows[i])
 						.height(ch);
 				}
 				
-				lc.ft_c			
+				lc.ft_c_left			
 					.parent()
-					.css({height: lc.ft_container.height() - 17})
+					.css({height: lc.ft_container.height() - getScrollBarHeight()})
 					.width(lc.ft_rc.outerWidth(true) + 1);
-			}		
+			}
+			
+			if (cfg.rightFixedCols > 0) {
+		        //clone the thead again to construct the 
+		        theadTrClone = theadTr.clone();
+			    
+                //calculate the actual column's count (support for colspan)
+                var r1c1ColSpan = 0;    
+                for (var i = this.rows[0].cells.length-1; i > this.rows[0].cells.length-1-cfg.rightFixedCols; i--) {
+                    r1c1ColSpan += this.rows[0].cells[i].colSpan;
+                }
+                
+                //prepare rows/cols for fixed row col section
+                var tdct = 0;
+                $($('tr', theadTrClone).first().find('th').get().reverse()).filter( function () {
+                    tdct += this.colSpan;
+                    return tdct > r1c1ColSpan;
+                }).remove();
+                
+                //add fixed row col section
+                lc.ft_rel_container
+                    .append($(cfg.tableTmpl(), {'class': 'ft_rc_right ' + cfg.tableClasses, 'style': 'right: ' + getScrollBarWidth() + 'px'})
+                    .append(theadTrClone));
+                
+                //an instance of fixed row column
+                lc.ft_rc = $('.ft_rc_right', lc.ft_rel_container);
+                
+                //now clone the fixed row column and append tbody for the remaining rows
+                lc.ft_c_right = lc.ft_rc.clone();
+                lc.ft_c_right[0].className = 'ft_c ' + cfg.tableClasses;
+                // Blank out the style so it loses the 'right'
+                lc.ft_c_right[0].style.right = '';
+                
+                //append tbody
+                lc.ft_c_right.append('<tbody />');
+                
+                //append row by row while just keeping the frozen cols
+                var ftc_tbody = lc.ft_c_right.find('tbody'); 
+                $.each ($this.find('tbody > tr'), function (idx, el) {
+                    var tr = $(el).clone();
+                    
+                    tdct = 0;
+                    $(tr.find('td').get().reverse()).filter(function (){
+                        tdct += this.colSpan;
+                        return tdct > r1c1ColSpan;
+                    }).remove();
+                    
+                    ftc_tbody.append(tr);
+                });
+                
+                lc.ft_rc.before(lc.ft_c_right);
+                lc.ft_c_right.wrap($('<div />', {'class': 'ft_cwrapper_right', 'style': 'right: ' + (getScrollBarWidth()-1) + 'px'}));
+
+                var tw = 0;
+                for (var i = this.rows[0].cells.length-1; i > this.rows[0].cells.length-1-cfg.rightFixedCols; i--) {
+                    tw += $(this.rows[0].cells[i]).outerWidth(true);
+                }
+                lc.ft_c_right.add(lc.ft_rc).width(tw);       
+                lc.ft_c_right.height($this.outerHeight(true));
+                    
+                //set height of fixed_rc and fixed_c
+                for (var i = 0; i < this.rows.length; i++) {
+                    var ch = $(this.rows[i]).outerHeight();
+                    var fch = $(lc.ft_c_right[0].rows[i]).outerHeight(true);
+                    
+                    ch = (ch>fch)?ch:fch;
+                    
+                    if (i < lc.ft_rc[0].rows.length) {
+                        $(lc.ft_r[0].rows[i])
+                            .add(lc.ft_rc[0].rows[i])                               
+                            .height(ch);
+                    }
+                    
+                    $(lc.ft_c_right[0].rows[i])
+                        .add(this.rows[i])
+                        .height(ch);
+                }
+                
+                lc.ft_c_right         
+                    .parent()
+                    .css({height: lc.ft_container.height() - getScrollBarHeight()})
+                    .width(lc.ft_rc.outerWidth(true) + 1);
+            }
 
 			lc.ft_r
 				.parent()
-				.css({width: lc.ft_wrapper.width()- 17});
+				.css({width: lc.ft_wrapper.width()- 13});
 			
 			//events (scroll and resize)
 			lc.ft_wrapper.scroll(function () {
-				if (cfg.fixedCols > 0) { 
-					lc.ft_c.css('top', ($(this).scrollTop()*-1));
+				if (cfg.leftFixedCols > 0) {
+					lc.ft_c_left.css('top', ($(this).scrollTop()*-1));
 				}
+				if (cfg.rightFixedCols > 0) {
+                    lc.ft_c_right.css('top', ($(this).scrollTop()*-1));
+                }
 				lc.ft_r.css('left', ($(this).scrollLeft()*-1));
 			});
+			
+			if (cfg.leftFixedCols > 0 && cfg.rightFixedCols > 0) {
+			    fixFrozenColumnScrolling(lc.ft_c_left, lc.ft_c_right, lc.ft_wrapper);
+			} else if (cfg.leftFixedCols > 0) {
+			    fixFrozenColumnScrolling(lc.ft_c_left, null, lc.ft_wrapper);
+			} else if (cfg.rightFixedCols > 0) {
+			    fixFrozenColumnScrolling(null, lc.ft_c_right, lc.ft_wrapper);
+			}
 			
 			/*$(window).on('resize', function () {
 				lc.ft_r
@@ -210,7 +304,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 				.css({width: lc.ft_rel_container.width()- 17});			
 			});*/
 			
-			if (cfg.sort && sorttable && cfg.fixedCols == 0) {
+			if (cfg.sort && sorttable && cfg.leftFixedCols == 0 && cfg.rightFixedCols == 0) {
 				
 				$('table', lc.ft_container).addClass('sorttable');
 				
@@ -237,7 +331,52 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			}
 
 		});
-
+		
+		function fixFrozenColumnScrolling(selectorOne, selectorTwo, scrollElement) {
+		    if (selectorOne != null) {
+		        $(selectorOne).bind('mousewheel DOMMouseScroll', function(event) {
+		            event.preventDefault();
+		            var scrollTo;
+                    if (event.originalEvent.detail) {
+                        scrollTo = event.originalEvent.detail*15;
+                    } else {
+                        scrollTo = (event.originalEvent.wheelDeltaY/40)*-15;
+                    }
+                    
+                    scrollElement.stop().animate({
+                        scrollTop: scrollElement.scrollTop() + scrollTo,
+                    }, 150);
+		        });
+		    }
+		    if (selectorTwo != null) {
+		        $(selectorTwo).bind('mousewheel DOMMouseScroll wheel onmousewheel', function(event) {
+		            event.preventDefault();
+		            var scrollTo;
+		            if (event.originalEvent.detail) {
+		                scrollTo = event.originalEvent.detail*15;
+		            } else {
+		                scrollTo = (event.originalEvent.wheelDeltaY/40)*-15;
+		            }
+		            
+		            scrollElement.stop().animate({
+                        scrollTop: scrollElement.scrollTop() + scrollTo,
+                    }, 150);
+                });
+		    }
+		}
+		function getScrollBarWidth() {
+		    var $outer = $('<div>').css({visibility: 'hidden', width: 100, overflow: 'scroll'}).appendTo('body'),
+		        widthWithScroll = $('<div>').css({width: '100%'}).appendTo($outer).outerWidth();
+		    $outer.remove();
+		    return 100 - widthWithScroll;
+		};
+		function getScrollBarHeight() {
+            var $outer = $('<div>').css({visibility: 'hidden', height: 100, overflow: 'scroll'}).appendTo('body'),
+                heightWithScroll = $('<div>').css({height: '100%'}).appendTo($outer).outerHeight();
+            $outer.remove();
+            return 100 - heightWithScroll;
+        };
 	};	
 
 })(jQuery);
+
